@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AMazeByKenzieEvan</string>
+
+    <string name="title">Welcome to New Maze!!!</string>
+
+
+    <string name="mazeGenerator">Maze Generator</string>
+    <string-array name="MazeGenerators">
+        <item>DFS</item>
+        <item>Prim</item>
+    </string-array>
+
+    <string name="mazeDriver">Maze Driver</string>
+    <string-array name="MazeDrivers">
+        <item>Manual</item>
+        <item>Wizard</item>
+        <item>WallFollower</item>
+    </string-array>
+</resources>
