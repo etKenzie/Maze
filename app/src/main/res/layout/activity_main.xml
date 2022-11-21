@@ -61,9 +61,70 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SpinnerMazeGenerator" />
 
+    <Switch
+        android:id="@+id/switchRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:checked="true"
+        android:text="Rooms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinnerMazeDriver" />
+
+    <SeekBar
+        android:id="@+id/seekbarLevel"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="310dp"
+        android:layout_height="37dp"
+        android:max="10"
+        android:progress="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textLevel" />
+
+    <TextView
+        android:id="@+id/textLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Level 4"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchRoom" />
+
+    <Button
+        android:id="@+id/buttonExplore"
+        android:layout_width="107dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="28dp"
+        android:text="Explore New Maze"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbarLevel" />
+
+    <Button
+        android:id="@+id/buttonRevisit"
+        android:layout_width="103dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="28dp"
+        android:text="Revisit Old Maze"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.586"
+        app:layout_constraintStart_toEndOf="@+id/buttonExplore"
+        app:layout_constraintTop_toBottomOf="@+id/seekbarLevel" /><![CDATA[
+
+
+
 
     "
         tools:layout_editor_absoluteX="180dp"
         tools:layout_editor_absoluteY="251dp" />
 
+
+]]>
 </androidx.constraintlayout.widget.ConstraintLayout>
