@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class StateTitle extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private TextView textLevel;
     private SeekBar seekbarLevel;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.state_title);
 
         Spinner SpinnerMazeGenerator = findViewById(R.id.SpinnerMazeGenerator);
         Spinner SpinnerMazeDriver = findViewById(R.id.SpinnerMazeDriver);
@@ -88,16 +89,62 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        buttonRevisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mazeGenerator = SpinnerMazeGenerator.getItemAtPosition(SpinnerMazeGenerator.getSelectedItemPosition()).toString();
+                mazeDriver = SpinnerMazeDriver.getItemAtPosition(SpinnerMazeDriver.getSelectedItemPosition()).toString();
+                revisitStateGenerating();
+            }
+        });
+
     }
 
     public void openStateGenerating() {
+        int randomSeed = 1 + (int) (Math.random()*((20000-1)+1));
+
         Intent intent = new Intent(this, StateGenerating.class);
         intent.putExtra("mazeGenerator", mazeGenerator);
         intent.putExtra("mazeDriver", mazeDriver);
         intent.putExtra("roomState", roomState);
         intent.putExtra("Level", Level);
+        intent.putExtra("Seed", randomSeed);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("oldMaze", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("oldMazeGenerator", mazeGenerator);
+        editor.putBoolean("oldRoomState", roomState);
+        editor.putString("oldLevel", Level);
+        editor.putInt("oldSeed", randomSeed);
+
+        editor.apply();
+
+        Toast.makeText(this, "Saved Current maze", Toast.LENGTH_SHORT).show();
 
         startActivity(intent);
+    }
+
+    public void revisitStateGenerating() {
+        int randomSeed = 1 + (int) (Math.random()*((20000-1)+1));
+
+        SharedPreferences sharedPreferences = getSharedPreferences("oldMaze", MODE_PRIVATE);
+
+        String oldMazeGenerator = sharedPreferences.getString("oldMazeGenerator", mazeGenerator);
+        Boolean oldRoomState = sharedPreferences.getBoolean("oldRoomState", roomState);
+        String oldLevel = sharedPreferences.getString("oldLevel", Level);
+        int oldSeed = sharedPreferences.getInt("oldSeed", randomSeed);
+
+
+        Intent intent = new Intent(this, StateGenerating.class);
+        intent.putExtra("mazeGenerator", oldMazeGenerator);
+        intent.putExtra("mazeDriver", mazeDriver);
+        intent.putExtra("roomState", oldRoomState);
+        intent.putExtra("Level", oldLevel);
+        intent.putExtra("Seed", oldSeed);
+
+        startActivity(intent);
+
     }
 
     @Override

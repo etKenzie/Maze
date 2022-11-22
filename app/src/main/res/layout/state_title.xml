@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".StateTitle"
+    android:background="@drawable/japanbackground"
+    >
 
     <TextView
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/title"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +25,7 @@
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:entries="@array/MazeGenerators"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,10 +46,12 @@
         android:id="@+id/textMazeGenerator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/mazeGenerator"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title" />
 
@@ -55,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/mazeDriver"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +73,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:checked="true"
-        android:text="Rooms"
+        android:fontFamily="sans-serif-black"
+        android:minHeight="48dp"
+        android:text="@string/Rooms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,10 +86,11 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="310dp"
         android:layout_height="37dp"
+        android:layout_marginTop="4dp"
         android:max="10"
         android:progress="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLevel" />
 
@@ -89,9 +98,10 @@
         android:id="@+id/textLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Level 4"
-        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/Level"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +113,7 @@
         android:layout_height="71dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="28dp"
-        android:text="Explore New Maze"
+        android:text="@string/Explore"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekbarLevel" />
 
@@ -112,7 +122,7 @@
         android:layout_width="103dp"
         android:layout_height="71dp"
         android:layout_marginTop="28dp"
-        android:text="Revisit Old Maze"
+        android:text="@string/Revisit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.586"
         app:layout_constraintStart_toEndOf="@+id/buttonExplore"
