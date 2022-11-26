@@ -12,9 +12,18 @@
 
     <string name="mazeDriver">Maze Driver</string>
     <string-array name="MazeDrivers">
+        <item>Select</item>
         <item>Manual</item>
         <item>Wizard</item>
         <item>WallFollower</item>
+    </string-array>
+
+    <string-array name="RobotConfigurations">
+        <item>Select</item>
+        <item>Premium</item>
+        <item>Mediocre</item>
+        <item>Soso</item>
+        <item>Shaky</item>
     </string-array>
 
     <string name="Rooms">Rooms</string>
@@ -24,6 +33,11 @@
     <string name="Explore">Explore New Maze</string>
 
     <string name="Revisit">Revisit Old maze</string>
+
+
+    <string name="RobotConfiguration">Robot Configuration</string>
+
+    <string name="Proceed">Proceed</string>
 
 
 </resources>

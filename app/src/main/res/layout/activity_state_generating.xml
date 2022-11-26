@@ -8,14 +8,89 @@
 
     <TextView
         android:id="@+id/titleStateGenerating"
-        android:layout_width="180dp"
-        android:layout_height="43dp"
+        android:layout_width="197dp"
+        android:layout_height="38dp"
         android:layout_marginTop="52dp"
-        android:text="State Generating"
+        android:fontFamily="sans-serif-black"
+        android:text="Generating Maze"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerMazeDriver"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:dropDownWidth="match_parent"
+        android:entries="@array/MazeDrivers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mazeDriver" />
+
+    <Spinner
+        android:id="@+id/spinnerRobotConfiguration"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:dropDownWidth="match_parent"
+        android:entries="@array/RobotConfigurations"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textRobotConfiguration" />
+
+    <TextView
+        android:id="@+id/mazeDriver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/mazeDriver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleStateGenerating" />
+
+    <TextView
+        android:id="@+id/textRobotConfiguration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/RobotConfiguration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMazeDriver" />
+
+    <ProgressBar
+        android:id="@+id/progbarMaze"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="289dp"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textProgressPercentage" />
+
+    <TextView
+        android:id="@+id/textProgressPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRobotConfiguration" />
+
+    <Button
+        android:id="@+id/buttonGoNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="@string/Proceed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progbarMaze" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
