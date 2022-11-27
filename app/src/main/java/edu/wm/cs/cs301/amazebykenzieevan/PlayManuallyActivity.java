@@ -34,7 +34,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     ImageButton buttonBackKey;
 
     // Integer to keep track of number of Clicks
-    int moves;
+    int pathLength;
 
     private static final String TAG = "PlayManuallyActivity";
 
@@ -83,7 +83,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
 
         // Initialize moves value to be 0
-        moves = 0;
+        pathLength = 0;
 
         // Forward Button Implementation
         buttonForwardKey = (ImageButton) findViewById(R.id.buttonFowardKey);
@@ -92,7 +92,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Add 1 to moves and log direction
-                moves += 1;
+                pathLength += 1;
                 Log.d(TAG, "Move Forward");
             }
         });
@@ -123,7 +123,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         buttonBackKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moves += 1;
+                pathLength += 1;
                 Log.d(TAG, "Move Backwards");
             }
         });
@@ -147,6 +147,23 @@ public class PlayManuallyActivity extends AppCompatActivity {
             }
         });
 
+
+        // Shortcut Exclusive p6 button
+        Button buttonShortcut = (Button) findViewById(R.id.buttonShortcut2);
+        buttonShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goStateWinning();
+            }
+        });
+
+    }
+
+    private void goStateWinning() {
+        Intent intent = new Intent(this, WinningActivity.class);
+        intent.putExtra("pathLength", pathLength);
+        intent.putExtra("energyConsumed", 0);
+        startActivity(intent);
     }
 
     /**

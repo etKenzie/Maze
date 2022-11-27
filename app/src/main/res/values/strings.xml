@@ -68,5 +68,23 @@
     <string name="SensorStatus">Sensor Status</string>
     <string name="speed">Speed : 50%</string>
 
+    <string name="Shortcut">Shortcut</string>
+
+
+    <string name="PathLength">Path Length:</string>
+    <string name="ShortestPath">Shortest Possible Path:</string>
+    <string name="EnergyConsumed">Energy Consumed:</string>
+
+    <string name="Win">You Have Completed the Maze!!!</string>
+    <string name="GoWin">Go2Winning</string>
+    <string name="GoLost">Go2Losing</string>
+
+    <string name="Lose">Robot Has Failed!!!</string>
+    <string name="LosingReason">Reason for Loss:</string>
+
+    <string name="GoTitle">Go back to Title Page by pressing back button.</string>
+
+
+
 
 </resources>

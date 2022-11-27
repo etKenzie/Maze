@@ -12,6 +12,10 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PlayAnimationActivity extends AppCompatActivity {
+    // Driver and Robot to use from State Generating
+    String mazeDriver;
+    String robotConfiguration;
+
     // Play Button for maze
     ToggleButton togglePlay;
     Boolean play;
@@ -43,12 +47,27 @@ public class PlayAnimationActivity extends AppCompatActivity {
     TextView textSpeed;
     int speed;
 
+    // int of amount of moves robot has taken and enery consumed
+    int pathLength;
+    int energyConsumed;
+
+    // Buttons to go to new activity
+    Button buttonGoWin;
+    Button buttonGoLose;
+    String losingReason;
+
     private static final String TAG = "PlayAnimationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
+
+        // Get Maze Driver and Robot Type
+        Intent intent = getIntent();
+
+        mazeDriver = intent.getStringExtra("mazeDriver");
+        robotConfiguration = intent.getStringExtra("robotConfiguration");
 
         // Play Button Implementation
         togglePlay = (ToggleButton) findViewById(R.id.togglePlay);
@@ -61,6 +80,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 Log.d(TAG, "Play: " + String.valueOf(play));
             }
         });
+
+
 
         // Toggle Button Configuration
         toggleMap = (ToggleButton) findViewById(R.id.toggleMap2);
@@ -152,6 +173,46 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
             }
         });
+
+        // Button to go to winning activity configuration
+        buttonGoWin = (Button) findViewById(R.id.buttonGoWin);
+        buttonGoLose = (Button) findViewById(R.id.buttonGoLose);
+
+        // Hardcoded Values for p6 for pathLength and enegyConsumed
+        pathLength = 98;
+        energyConsumed = 1024;
+        losingReason = "Robot ran out of Energy.";
+
+        buttonGoWin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goWinningActivity();
+            }
+        });
+
+        buttonGoLose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goLosingActivity();
+            }
+        });
+
+    }
+
+    private void goLosingActivity() {
+        Intent intent = new Intent(this, LosingActivity.class);
+        intent.putExtra("pathLength", pathLength);
+        intent.putExtra("energyConsumed", energyConsumed);
+        intent.putExtra("losingReason", losingReason);
+
+        startActivity(intent);
+    }
+
+    private void goWinningActivity() {
+        Intent intent = new Intent(this, WinningActivity.class);
+        intent.putExtra("pathLength", pathLength);
+        intent.putExtra("energyConsumed", energyConsumed);
+        startActivity(intent);
     }
 
     /**

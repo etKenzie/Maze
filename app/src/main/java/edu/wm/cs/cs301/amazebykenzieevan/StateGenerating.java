@@ -122,7 +122,7 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         new Thread(new Runnable() {
             @Override
             public void run() {
-                double seconds = 10;
+                double seconds = 3;
                 for (int i = 0; i<= (int)seconds; i++){
                     try {
                         double curProg = (i/seconds)*100;
