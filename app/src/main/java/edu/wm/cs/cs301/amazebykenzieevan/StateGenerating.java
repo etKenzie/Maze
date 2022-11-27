@@ -47,9 +47,6 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         roomState = intent.getExtras().getBoolean("roomState");
         seed = intent.getExtras().getInt("Seed");
 
-        TextView main = (TextView) findViewById(R.id.titleStateGenerating);
-
-        main.setText(String.valueOf(seed));
 
         // Spinner Maze Driver Instance
         spinnerMazeDriver = (Spinner) findViewById(R.id.spinnerMazeDriver);

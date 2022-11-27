@@ -39,5 +39,24 @@
 
     <string name="Proceed">Proceed</string>
 
+    <string name="GeneratingMaze">Generating Maze...</string>
+
+    <string name="ShowMaze">Show Full Maze</string>
+
+    <string name="ShowWall">Show Walls</string>
+
+    <string name="ShowSolution">Show Solution</string>
+
+    <string name="Zoom">Zoom</string>
+    <string name="ZoomIn">+</string>
+    <string name="ZoomOut">-</string>
+
+    <string name="UpKeyDesc">Up key for user to move forward</string>
+    <string name="RightKeyDesc">Right key for user to rotate right</string>
+    <string name="LeftKeyDesc">Left key for user to rotate left</string>
+    <string name="BackKeyDesc">Up key for user to move Backwards</string>
+
+
+
 
 </resources>
