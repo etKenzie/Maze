@@ -57,6 +57,16 @@
     <string name="BackKeyDesc">Up key for user to move Backwards</string>
 
 
+    <string name="RemainingEnergy">Energy: 100%</string>
+    <string name="PlayPause">Play/Pause</string>
+
+    <string name="F">F</string>
+    <string name="L">L</string>
+    <string name="R">R</string>
+    <string name="B">B</string>
+
+    <string name="SensorStatus">Sensor Status</string>
+    <string name="speed">Speed : 50%</string>
 
 
 </resources>
