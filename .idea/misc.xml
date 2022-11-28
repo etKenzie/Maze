@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.67" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_drop_down_circle_24.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/ic_baseline_pause_24.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2025" />

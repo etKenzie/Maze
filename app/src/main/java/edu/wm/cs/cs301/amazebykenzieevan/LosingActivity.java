@@ -53,4 +53,13 @@ public class LosingActivity extends AppCompatActivity {
         textLosingReason.setText(losingReason);
 
     }
+
+    /**
+     * Function to change what happens when back button is pressed
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, StateTitle.class);
+        startActivity(intent);
+    }
 }

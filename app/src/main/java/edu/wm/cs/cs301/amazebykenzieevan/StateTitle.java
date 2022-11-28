@@ -63,6 +63,8 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
+
+
         // Buttons to Transition to new activity
         buttonExplore = (Button) findViewById(R.id.buttonExplore);
         buttonRevisit = (Button) findViewById(R.id.buttonRevisit);
@@ -85,6 +87,12 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View v) {
                 mazeGenerator = SpinnerMazeGenerator.getItemAtPosition(SpinnerMazeGenerator.getSelectedItemPosition()).toString();
+
+
+                // Create Boolean to check if room should be on or off.
+                Switch switchRoom = (Switch) findViewById(R.id.switchRoom);
+                roomState = switchRoom.isChecked();
+
                 revisitStateGenerating();
             }
         });
@@ -128,7 +136,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
 
         Intent intent = new Intent(this, StateGenerating.class);
         intent.putExtra("mazeGenerator", oldMazeGenerator);
-        intent.putExtra("roomState", oldRoomState);
+        intent.putExtra("roomState", roomState);
         intent.putExtra("Level", oldLevel);
         intent.putExtra("Seed", oldSeed);
 

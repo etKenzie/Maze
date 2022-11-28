@@ -10,6 +10,8 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel2;
+
 public class PlayManuallyActivity extends AppCompatActivity {
     // Toggle Button instance and boolean that gets the current state
     ToggleButton toggleMap;
@@ -35,6 +37,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     // Integer to keep track of number of Clicks
     int pathLength;
+
+    MazePanel2 mazePanel;
 
     private static final String TAG = "PlayManuallyActivity";
 
@@ -156,6 +160,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 goStateWinning();
             }
         });
+
+        // Maze Panel Instance
+        mazePanel = (MazePanel2) findViewById(R.id.mazePanelAnimation);
 
     }
 

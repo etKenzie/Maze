@@ -11,6 +11,8 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel;
+
 public class PlayAnimationActivity extends AppCompatActivity {
     // Driver and Robot to use from State Generating
     String mazeDriver;
@@ -55,6 +57,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
     Button buttonGoWin;
     Button buttonGoLose;
     String losingReason;
+
+    MazePanel mazePanelAnimation;
 
     private static final String TAG = "PlayAnimationActivity";
 
@@ -178,7 +182,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         buttonGoWin = (Button) findViewById(R.id.buttonGoWin);
         buttonGoLose = (Button) findViewById(R.id.buttonGoLose);
 
-        // Hardcoded Values for p6 for pathLength and enegyConsumed
+        // Hardcoded Values for p6 for pathLength and energyConsumed
         pathLength = 98;
         energyConsumed = 1024;
         losingReason = "Robot ran out of Energy.";
@@ -196,6 +200,11 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 goLosingActivity();
             }
         });
+
+        // MazePanel Call
+        mazePanelAnimation = findViewById(R.id.mazePanelAnimation);
+
+
 
     }
 
