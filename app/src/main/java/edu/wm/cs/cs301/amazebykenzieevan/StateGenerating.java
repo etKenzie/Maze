@@ -14,6 +14,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author kenzieevan
+ *
+ * Class that implements UI interface in activity_state_generating Layout file.
+ */
 public class StateGenerating extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Values from State Title
     String Level;
@@ -21,16 +26,18 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     Boolean roomState;
     int seed;
 
+    // Spinner instances and String outputs from those
     Spinner spinnerMazeDriver;
     Spinner spinnerRobotConfiguration;
     String mazeDriver;
     String robotConfiguration;
 
-
+    // ProgressBar of Maze Generation
     ProgressBar progbarMaze;
     TextView textProgressPercentage;
     private static final String TAG = "StateGenerating";
 
+    // Transition Helpers
     Button buttonGoNext;
     Boolean progressFinished;
 
@@ -68,21 +75,24 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         startCount();
 
         // Button to Go to Next Activity
-
         buttonGoNext = findViewById(R.id.buttonGoNext);
 
         buttonGoNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Current choices for Driver and Robot
                 mazeDriver = spinnerMazeDriver.getItemAtPosition(spinnerMazeDriver.getSelectedItemPosition()).toString();
                 robotConfiguration = spinnerRobotConfiguration.getItemAtPosition(spinnerRobotConfiguration.getSelectedItemPosition()).toString();
 
+                // If driver has not been chosen
                 if(mazeDriver.equals("Select")) {
                     Toast.makeText(StateGenerating.this, "Please Select Driver", Toast.LENGTH_SHORT).show();
                 }
+                // If driver is not manual robot must be chosen
                 if(robotConfiguration.equals("Select") && mazeDriver.equals("Manual")==false) {
                     Toast.makeText(StateGenerating.this, "Please Select Robot Configuration", Toast.LENGTH_SHORT).show();
                 }
+                // Maze has not been generated
                 if (progressFinished == false) {
                     Toast.makeText(StateGenerating.this, "Wait Until Progress Finished", Toast.LENGTH_SHORT).show();
                 }
@@ -117,10 +127,10 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         textProgressPercentage = (TextView) findViewById(R.id.textProgressPercentage);
 
         // BackgroundThread class to use for to wait amount of time seconds
-
         new Thread(new Runnable() {
             @Override
             public void run() {
+                // Amount of time it takes to load maze. Hard coded for p6
                 double seconds = 3;
                 for (int i = 0; i<= (int)seconds; i++){
                     try {
@@ -155,7 +165,10 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        // Log Spinner Selection and Make Toast of it
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, text);
     }
 
     @Override
@@ -163,12 +176,20 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
     }
 
+    /**
+     * Class to transition to Manual Activity.
+     */
     public void goManualActivity() {
+        // Intent to change and then changes activity
         Intent intent = new Intent(this, PlayManuallyActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Class to transition to Play Animation Activity.
+     */
     public void goAnimationActivity() {
+        // Intent to change and then changes activity while storing some values
         Intent intent = new Intent(this, PlayAnimationActivity.class);
         intent.putExtra("mazeDriver", mazeDriver);
         intent.putExtra("robotConfiguration", robotConfiguration);
