@@ -6,18 +6,26 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author kenzieevan
+ *
+ * Class that implements UI interface in activiy_losing Layout file.
+ */
 public class LosingActivity extends AppCompatActivity {
-
+    // Path Length and Text instance
     int pathLength;
     TextView textPathLength;
 
     TextView textShortestPath;
 
+    // Energy Consumed by Robot and Text instance
     int energyConsumed;
     TextView textEnergyConsumed;
 
+    // Losing Reason and Text instance
     TextView textLosingReason;
     String losingReason;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

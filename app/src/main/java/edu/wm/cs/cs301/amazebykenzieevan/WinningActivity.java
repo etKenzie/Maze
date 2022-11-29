@@ -6,13 +6,19 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author kenzieevan
+ *
+ * Class that implements UI interface in activity_winning Layout file.
+ */
 public class WinningActivity extends AppCompatActivity {
-    // Amount of Moves from previous activity
+    // Path Length and Text instance
     int pathLength;
     TextView textPathLength;
 
     TextView textShortestPath;
 
+    // Energy Consumed by Robot and Text instance
     int energyConsumed;
     TextView textEnergyConsumed;
 

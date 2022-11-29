@@ -7,12 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel;
 
+/**
+ * @author kenzieevan
+ *
+ * Class that implements UI interface in activity_play_animation Layout file.
+ */
 public class PlayAnimationActivity extends AppCompatActivity {
     // Driver and Robot to use from State Generating
     String mazeDriver;
@@ -58,6 +64,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     Button buttonGoLose;
     String losingReason;
 
+    // Maze Panel Instance
     MazePanel mazePanelAnimation;
 
     private static final String TAG = "PlayAnimationActivity";
@@ -82,6 +89,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 play = togglePlay.isChecked();
                 Log.d(TAG, "Play: " + String.valueOf(play));
+                Toast.makeText(PlayAnimationActivity.this, "Play: " + String.valueOf(play), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -96,6 +104,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showMap = toggleMap.isChecked();
                 Log.d(TAG, "Map On: " + String.valueOf(showMap));
+                Toast.makeText(PlayAnimationActivity.this, "Map On: " + String.valueOf(showMap), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -109,7 +118,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showWalls = toggleWalls.isChecked();
                 Log.d(TAG, "Walls On: " + String.valueOf(showWalls));
-
+                Toast.makeText(PlayAnimationActivity.this, "Walls On: " + String.valueOf(showWalls), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -122,6 +131,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showSolution = toggleSolution.isChecked();
                 Log.d(TAG, "Solution On: " + String.valueOf(showSolution));
+                Toast.makeText(PlayAnimationActivity.this, "Solution On: " + String.valueOf(showSolution), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,6 +142,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Zoom In");
+                Toast.makeText(PlayAnimationActivity.this, "Zoom In", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -141,6 +152,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Zoom Out");
+                Toast.makeText(PlayAnimationActivity.this, "Zoom Out", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -174,6 +186,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "Speed: " + speed + "%");
+                Toast.makeText(PlayAnimationActivity.this, "Speed: " + speed + "%", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -208,6 +222,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Class to transition to StateLosing
+     */
     private void goLosingActivity() {
         Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("pathLength", pathLength);
@@ -217,6 +234,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Class to transition to StateWinning
+     */
     private void goWinningActivity() {
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);

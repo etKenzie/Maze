@@ -69,7 +69,8 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d(TAG, "Level " + Level + " set");
+                Log.d(TAG, Level + " set");
+                Toast.makeText(StateTitle.this, Level + " set", Toast.LENGTH_SHORT).show();
 
             }
 

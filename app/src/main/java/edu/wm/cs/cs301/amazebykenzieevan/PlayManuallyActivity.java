@@ -6,12 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel2;
 
+/**
+ * @author kenzieevan
+ *
+ * Class that implements UI interface in activity_play_manually Layout file.
+ */
 public class PlayManuallyActivity extends AppCompatActivity {
     // Toggle Button instance and boolean that gets the current state
     ToggleButton toggleMap;
@@ -56,6 +62,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showMap = toggleMap.isChecked();
                 Log.d(TAG, "Map On: " + String.valueOf(showMap));
+                Toast.makeText(PlayManuallyActivity.this, "Map On: " + String.valueOf(showMap), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -69,6 +76,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showWalls = toggleWalls.isChecked();
                 Log.d(TAG, "Walls On: " + String.valueOf(showWalls));
+                Toast.makeText(PlayManuallyActivity.this, "Walls On: " + String.valueOf(showWalls), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -82,6 +90,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showSolution = toggleSolution.isChecked();
                 Log.d(TAG, "Solution On: " + String.valueOf(showSolution));
+                Toast.makeText(PlayManuallyActivity.this, "Solution On: " + String.valueOf(showSolution), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,6 +107,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 // Add 1 to moves and log direction
                 pathLength += 1;
                 Log.d(TAG, "Move Forward");
+                Toast.makeText(PlayManuallyActivity.this, "Move Forward", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -108,6 +118,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Rotate Left");
+                Toast.makeText(PlayManuallyActivity.this, "Rotate Left", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,6 +129,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Rotate Right");
+                Toast.makeText(PlayManuallyActivity.this, "Rotate Right", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,6 +141,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 pathLength += 1;
                 Log.d(TAG, "Move Backwards");
+                Toast.makeText(PlayManuallyActivity.this, "Move Backwards", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -139,6 +152,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Zoom In");
+                Toast.makeText(PlayManuallyActivity.this, "Zoom In", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -148,6 +162,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Zoom Out");
+                Toast.makeText(PlayManuallyActivity.this, "Zoom Out", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -166,6 +181,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Class To transition to State Winning
+     */
     private void goStateWinning() {
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
