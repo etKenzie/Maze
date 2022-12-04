@@ -14,6 +14,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.wm.cs.cs301.amazebykenzieevan.generation.DefaultOrder;
+import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
+import edu.wm.cs.cs301.amazebykenzieevan.generation.MazeFactory;
+import edu.wm.cs.cs301.amazebykenzieevan.generation.Order;
+
 /**
  * @author kenzieevan
  *
@@ -21,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class StateGenerating extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Values from State Title
-    String Level;
+    int skill;
     String mazeGenerator;
     Boolean roomState;
     int seed;
@@ -41,6 +46,10 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     Button buttonGoNext;
     Boolean progressFinished;
 
+    // Maze to Traverse
+    Maze newMaze;
+    private static StateGenerating instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +58,7 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         // Retrieve Previous Values
         Intent intent = getIntent();
 
-        Level = intent.getStringExtra("Level");
+        skill = intent.getExtras().getInt("skill");
         mazeGenerator = intent.getStringExtra("mazeGenerator");
         roomState = intent.getExtras().getBoolean("roomState");
         seed = intent.getExtras().getInt("Seed");
@@ -72,7 +81,7 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
         // Progress Bar Implementation
         progressFinished = false;
-        startCount();
+//        startCount();
 
         // Button to Go to Next Activity
         buttonGoNext = findViewById(R.id.buttonGoNext);
@@ -114,51 +123,58 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
             }
         });
 
-
-
-
     }
 
-    /**
-     * Starts the Progressbar Count to 100 and text changing at the same time
-     */
-    private void startCount() {
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        // Create Builder object to use and adjust based on input
+        Order.Builder builder = Order.Builder.DFS;
+        if (mazeGenerator == "Prim"){
+            builder = Order.Builder.Prim;
+        }
+
+        // Generate Maze to traverse for future activities
+        MazeFactory factory = new MazeFactory();
+        DefaultOrder order = new DefaultOrder(skill, builder, roomState, seed);
+
+        //create factory then return a new maze
+        factory.order(order);
+        factory.waitTillDelivered();
+
+        updateProgressBar(49);
+
+        progressFinished = true;
+
+        newMaze = order.getMaze();
+
+        Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(2,2));
+    }
+
+
+    public static StateGenerating getInstance() {
+        return instance;
+    }
+
+    public void updateProgressBar(int progress) {
         progbarMaze = (ProgressBar) findViewById(R.id.progbarMaze);
         textProgressPercentage = (TextView) findViewById(R.id.textProgressPercentage);
-
-        // BackgroundThread class to use for to wait amount of time seconds
-        new Thread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // Amount of time it takes to load maze. Hard coded for p6
-                double seconds = 3;
-                for (int i = 0; i<= (int)seconds; i++){
-                    try {
-                        double curProg = (i/seconds)*100;
-                        int progress = (int) curProg;
-                        Log.d(TAG, "run: " + curProg);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                textProgressPercentage.setText(progress + "%");
-                                progbarMaze.setProgress(progress);
+                textProgressPercentage.setText(progress + "%");
+                progbarMaze.setProgress(progress);
 
-                            }
-                        });
-                        if(i == (int)seconds){
-                            progressFinished = true;
-                            Log.d(TAG, "Maze Generated!!");
-                        }
-                        Thread.sleep(1000);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
-        }).start();
+        });
+        if (progress >= 100) {
+            progressFinished = true;
+        }
 
     }
+
 
     /**
      * Controls what happens when spinner bar item is selected
@@ -175,6 +191,8 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 
     /**
      * Class to transition to Manual Activity.

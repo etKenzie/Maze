@@ -2,31 +2,27 @@ package edu.wm.cs.cs301.amazebykenzieevan.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import edu.wm.cs.cs301.amazebykenzieevan.R;
+import edu.wm.cs.cs301.amazebykenzieevan.gui.P7PanelF22;
 
 /**
  * @author kenzieevan
  * Used for MazePanel in Play Manual Activity
  *
  */
-public class MazePanel extends View {
-
-
-    private Rect mRectSquare;
-    private Paint mPaintSquare;
-
-    private Canvas canvas;
-    private Bitmap mainBitmap;
+public class MazePanel extends View  implements P7PanelF22 {
+    private Bitmap mBitmap;
     private Paint paint;
+    private Path mPath;
+    private Canvas UIcanvas;
 
     private int imageWidth;
     private int imageHeight;
@@ -55,76 +51,124 @@ public class MazePanel extends View {
         init(attrs);
     }
     private void init(@Nullable AttributeSet set){
-        mRectSquare = new Rect();
-        mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // Initializing Paint, Bitmap, and Canvas to draw Bitmap
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBitmap = Bitmap.createBitmap(530,530, Bitmap.Config.ARGB_8888);
 
-
+        UIcanvas = new Canvas(mBitmap);
     }
 
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas UIcanvas) {
+        super.onDraw(UIcanvas);
 
-        this.canvas = canvas;
-        canvas.save();
-
-
-
-        mainBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maze_wall);
-        mainBitmap = Bitmap.createScaledBitmap(mainBitmap, 530, 530, false);
-        canvas.drawBitmap(mainBitmap, 0, 0, null);
+        mBitmap = Bitmap.createScaledBitmap(mBitmap, 530, 530, false);
+        UIcanvas.drawBitmap(mBitmap, 0, 0, paint);
 
 
-        // Drawing My maze on the Canvas then save and convert to Bitmap by making png of it
-//        mRectSquare.top = 0;
-//        mRectSquare.left = 0;
-//        mRectSquare.right = 530;
-//        mRectSquare.bottom = 265;
-//        mPaintSquare.setColor(Color.GRAY);
-//
-//
-//        canvas.drawRect(mRectSquare, mPaintSquare);
-//
-//        mRectSquare.top = 265;
-//        mRectSquare.left = 0;
-//        mRectSquare.right = 530;
-//        mRectSquare.bottom = 530;
-//        mPaintSquare.setColor(Color.BLACK);
-//
-//        canvas.drawRect(mRectSquare, mPaintSquare);
+    }
 
-//        // Draw Maze Wall
-//        Paint wallpaint = new Paint();
-//        wallpaint.setColor(Color.YELLOW);
-//        wallpaint.setStyle(Paint.Style.FILL);
-//
-//        Path wallpath = new Path();
-//        wallpath.reset(); // only needed when reusing this path for a new build
-//        wallpath.moveTo(0, 450); // used for first point
-//        wallpath.lineTo(0, 180);
-//        wallpath.lineTo(200, 215);
-//        wallpath.lineTo(200, 350);
-//        wallpath.close(); // there is a setLastPoint action but i found it not to work as expected
-//
-//        canvas.drawPath(wallpath, wallpaint);
-//
-//        wallpaint = new Paint();
-//        wallpaint.setColor(Color.GREEN);
-//        wallpaint.setStyle(Paint.Style.FILL);
-//
-//        wallpath = new Path();
-//        wallpath.reset(); // only needed when reusing this path for a new build
-//        wallpath.moveTo(530, 450); // used for first point
-//        wallpath.lineTo(530, 180);
-//        wallpath.lineTo(200, 215);
-//        wallpath.lineTo(200, 350);
-//        wallpath.close(); // there is a setLastPoint action but i found it not to work as expected
-//
-//        canvas.drawPath(wallpath, wallpaint);
+    public void testImage(Canvas c) {
 
+//        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_ball);
+        paint.setColor(Color.BLUE);
+        addFilledRectangle(0,0,100,100);
+
+        int[] xarray;
+
+
+
+        postInvalidate();
+    }
+
+    @Override
+    public void commit() {
+        postInvalidate();
+    }
+
+    @Override
+    public boolean isOperational() {
+        return false;
+    }
+
+    @Override
+    public void setColor(int argb) {
+        paint.setColor(argb);
+    }
+
+    @Override
+    public int getColor() {
+        return paint.getColor();
+    }
+
+    @Override
+    public void addBackground(float percentToExit) {
+
+    }
+
+    @Override
+    public void addFilledRectangle(int x, int y, int width, int height) {
+        UIcanvas.drawRect(x,y,width,height,paint);
+        postInvalidate();
+    }
+
+    @Override
+    public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+        // Adjust Paint and Create Path to use to draw Polygon
+        paint.setStyle(Paint.Style.FILL);
+        Path path = new Path();
+        path.reset();
+
+        // Move to Coordinate
+        path.moveTo(xPoints[0],xPoints[1]);
+
+        // Draw lines between the two Points
+        path.lineTo(xPoints[0], yPoints[0]);
+        for (int i=1; i<nPoints; i++) {
+            path.lineTo(xPoints[i],yPoints[i]);
+        }
+
+
+
+        UIcanvas.drawPath(path,paint);
 
 
 
     }
 
+    @Override
+    public void addPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+        // Adjust Paint and Create Path to use to draw Polygon
+        paint.setStyle(Paint.Style.STROKE);
+        Path path = new Path();
+        path.reset();
+
+        path.moveTo(xPoints[0],xPoints[1]);
+    }
+
+    @Override
+    public void addLine(int startX, int startY, int endX, int endY) {
+
+    }
+
+    @Override
+    public void addFilledOval(int x, int y, int width, int height) {
+
+    }
+
+    @Override
+    public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+
+    }
+
+    @Override
+    public void addMarker(float x, float y, String str) {
+
+    }
+
+    @Override
+    public void setRenderingHint(P7RenderingHints hintKey, P7RenderingHints hintValue) {
+
+    }
 }

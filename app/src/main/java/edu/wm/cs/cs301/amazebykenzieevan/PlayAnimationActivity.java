@@ -1,6 +1,8 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -216,7 +218,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
         });
 
         // MazePanel Call
+        Canvas UIcanvas = new Canvas();
+
+        UIcanvas.drawColor(Color.BLUE);
+
         mazePanelAnimation = findViewById(R.id.mazePanelAnimation);
+//        mazePanelAnimation.draw(UIcanvas);
+        mazePanelAnimation.testImage(UIcanvas);
+
 
 
 

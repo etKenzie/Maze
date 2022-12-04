@@ -31,6 +31,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
     private Boolean roomState;
     private String mazeGenerator;
     private String Level;
+    private int skill;
 
     private static final String TAG = "StateTitle";
 
@@ -49,6 +50,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
 
         // Default Instance of Level. Used when slider not moved.
         Level = "Level 3";
+        skill = 3;
 
         // Level Seekbar Implementation
         textLevel = (TextView) findViewById(R.id.textLevel);
@@ -60,6 +62,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
                 textLevel.setText("Level " + progress);
                 // Convert TextLevel to String
                 Level = textLevel.getText().toString();
+                skill = progress;
             }
 
             @Override
@@ -125,7 +128,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
         Intent intent = new Intent(this, StateGenerating.class);
         intent.putExtra("mazeGenerator", mazeGenerator);
         intent.putExtra("roomState", roomState);
-        intent.putExtra("Level", Level);
+        intent.putExtra("skill", skill);
         intent.putExtra("Seed", randomSeed);
 
         // Saving user inputs for revisiting
@@ -134,7 +137,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
 
         editor.putString("oldMazeGenerator", mazeGenerator);
         editor.putBoolean("oldRoomState", roomState);
-        editor.putString("oldLevel", Level);
+        editor.putInt("oldSkill", skill);
         editor.putInt("oldSeed", randomSeed);
 
         editor.apply();
@@ -144,7 +147,7 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
         // Logging User Inputs gotten from this activity
         Log.d(TAG, "Maze Generator: " + mazeGenerator);
         Log.d(TAG, "Room State: " + roomState);
-        Log.d(TAG, "Level: " + Level);
+        Log.d(TAG, "Level: " + skill);
         Log.d(TAG, "Seed: " + randomSeed);
 
 
@@ -164,20 +167,20 @@ public class StateTitle extends AppCompatActivity implements AdapterView.OnItemS
 
         String oldMazeGenerator = sharedPreferences.getString("oldMazeGenerator", mazeGenerator);
         Boolean oldRoomState = sharedPreferences.getBoolean("oldRoomState", roomState);
-        String oldLevel = sharedPreferences.getString("oldLevel", Level);
+        int oldSkill = sharedPreferences.getInt("oldSkill", skill);
         int oldSeed = sharedPreferences.getInt("oldSeed", randomSeed);
 
         // Intent and transition to new activity
         Intent intent = new Intent(this, StateGenerating.class);
         intent.putExtra("mazeGenerator", oldMazeGenerator);
         intent.putExtra("roomState", oldRoomState);
-        intent.putExtra("Level", oldLevel);
+        intent.putExtra("skill", oldSkill);
         intent.putExtra("Seed", oldSeed);
 
         // Logging User Inputs gotten from this activity
         Log.d(TAG, "Maze Generator: " + oldMazeGenerator);
         Log.d(TAG, "Room State: " + oldRoomState);
-        Log.d(TAG, "Level: " + oldLevel);
+        Log.d(TAG, "Level: " + oldSkill);
         Log.d(TAG, "Seed: " + oldSeed);
 
         startActivity(intent);
