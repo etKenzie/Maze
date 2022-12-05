@@ -11,7 +11,8 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel2;
+import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
+import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel;
 
 /**
  * @author kenzieevan
@@ -44,7 +45,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
     // Integer to keep track of number of Clicks
     int pathLength;
 
-    MazePanel2 mazePanel;
+    // Maze Panel and Maze Instance to go through
+    MazePanel mazePanel;
+    Maze newMaze;
 
     private static final String TAG = "PlayManuallyActivity";
 
@@ -177,8 +180,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
         });
 
         // Maze Panel Instance
-        mazePanel = (MazePanel2) findViewById(R.id.mazePanelAnimation);
+        mazePanel = (MazePanel) findViewById(R.id.mazePanelAnimation);
+        mazePanel.testImage();
 
+        // Getting maze to play through
+        newMaze = MazeHolder.getInstance().getData();
+
+        Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(2,2));
     }
 
     /**

@@ -12,6 +12,7 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
 import edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel;
 
 /**
@@ -64,8 +65,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
     Button buttonGoLose;
     String losingReason;
 
-    // Maze Panel Instance
+    // Maze Panel Instance and Maze Instance to Go through
     MazePanel mazePanelAnimation;
+    Maze newMaze;
 
     private static final String TAG = "PlayAnimationActivity";
 
@@ -218,6 +220,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // MazePanel Call and Instance
         mazePanelAnimation = findViewById(R.id.mazePanelAnimation);
         mazePanelAnimation.testImage();
+
+        // New Maze Instance call
+        newMaze = MazeHolder.getInstance().getData();
 
 
     }

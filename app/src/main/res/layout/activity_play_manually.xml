@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".PlayManuallyActivity">
 
-    <edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel2
+    <edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel
         android:id="@+id/mazePanelAnimation"
         android:layout_width="200dp"
         android:layout_height="200dp"

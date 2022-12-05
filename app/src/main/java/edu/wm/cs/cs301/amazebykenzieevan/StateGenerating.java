@@ -50,6 +50,7 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     private static StateGenerating instance;
 
     int progress;
+    private MazeHolder mazeHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,8 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         buttonGoNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 // Current choices for Driver and Robot
                 mazeDriver = spinnerMazeDriver.getItemAtPosition(spinnerMazeDriver.getSelectedItemPosition()).toString();
                 robotConfiguration = spinnerRobotConfiguration.getItemAtPosition(spinnerRobotConfiguration.getSelectedItemPosition()).toString();
@@ -108,6 +111,9 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
                 // If none of the three statements above are true able to proceed to next activity
                 if(mazeDriver.equals("Select") == false && progressFinished) {
+
+                    // Store Maze as a Singleton
+                    MazeHolder.getInstance().setData(newMaze);
                     // Go to Next Activity Depending on Maze Driver
                     if(mazeDriver.equals("Manual")) {
                         goManualActivity();
@@ -138,6 +144,8 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
 //        Log.d(TAG, "Initial Distance To Exit: " + newMaze.getDistanceToExit(2,2));
 
+
+
     }
 
     public void updateProgressBar(int progress) {
@@ -153,6 +161,7 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
         });
         if (progress >= 100) {
             progressFinished = true;
+
         }
 
     }
@@ -180,15 +189,20 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
      * Class to transition to Manual Activity.
      */
     public void goManualActivity() {
+
         // Intent to change and then changes activity
         Intent intent = new Intent(this, PlayManuallyActivity.class);
         startActivity(intent);
+
+
     }
 
     /**
      * Class to transition to Play Animation Activity.
      */
     public void goAnimationActivity() {
+
+
         // Intent to change and then changes activity while storing some values
         Intent intent = new Intent(this, PlayAnimationActivity.class);
         intent.putExtra("mazeDriver", mazeDriver);
