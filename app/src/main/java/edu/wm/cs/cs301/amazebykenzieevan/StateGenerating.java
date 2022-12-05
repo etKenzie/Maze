@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.wm.cs.cs301.amazebykenzieevan.generation.DefaultOrder;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.MazeFactory;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.Order;
@@ -24,7 +23,7 @@ import edu.wm.cs.cs301.amazebykenzieevan.generation.Order;
  *
  * Class that implements UI interface in activity_state_generating Layout file.
  */
-public class StateGenerating extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class StateGenerating extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Order {
     // Values from State Title
     int skill;
     String mazeGenerator;
@@ -49,6 +48,8 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     // Maze to Traverse
     Maze newMaze;
     private static StateGenerating instance;
+
+    int progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,6 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
         // Progress Bar Implementation
         progressFinished = false;
-//        startCount();
 
         // Button to Go to Next Activity
         buttonGoNext = findViewById(R.id.buttonGoNext);
@@ -129,33 +129,15 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     protected void onStart()
     {
         super.onStart();
-
-        // Create Builder object to use and adjust based on input
-        Order.Builder builder = Order.Builder.DFS;
-        if (mazeGenerator == "Prim"){
-            builder = Order.Builder.Prim;
-        }
-
         // Generate Maze to traverse for future activities
         MazeFactory factory = new MazeFactory();
-        DefaultOrder order = new DefaultOrder(skill, builder, roomState, seed);
+//        DefaultOrder order = new DefaultOrder(getSkillLevel(), getBuilder(), isPerfect(), getSeed());
 
         //create factory then return a new maze
-        factory.order(order);
-        factory.waitTillDelivered();
+        factory.order(this);
 
-        updateProgressBar(49);
+//        Log.d(TAG, "Initial Distance To Exit: " + newMaze.getDistanceToExit(2,2));
 
-        progressFinished = true;
-
-        newMaze = order.getMaze();
-
-        Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(2,2));
-    }
-
-
-    public static StateGenerating getInstance() {
-        return instance;
     }
 
     public void updateProgressBar(int progress) {
@@ -214,4 +196,50 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
 
         startActivity(intent);
     }
+
+    @Override
+    public int getSkillLevel() {
+        Log.d(TAG, "getSkillLevel: " + skill);
+        return skill;
+    }
+
+    @Override
+    public Builder getBuilder() {
+        // Create Builder object to use and adjust based on input
+        Order.Builder builder = Order.Builder.DFS;
+        if (mazeGenerator == "Prim"){
+            builder = Order.Builder.Prim;
+        }
+        return builder;
+    }
+
+    @Override
+    public boolean isPerfect() {
+        return roomState;
+    }
+
+    @Override
+    public int getSeed() {
+        return seed;
+    }
+
+    @Override
+    public void deliver(Maze mazeConfig) {
+        this.newMaze = mazeConfig;
+    }
+
+    @Override
+    public void updateProgress(int percentage) {
+        Log.d(TAG, "Completion of Maze Percentage: " + percentage);
+
+        if (0 <= percentage && percentage <= 100) {
+            progress = percentage;
+            updateProgressBar(progress);
+        }
+        else {
+            progress = (percentage < 0) ? 0 : 100;
+            Log.d(TAG, "range violation, " + percentage + " outside 0,1,...,100 range. Used closest legit value for mitigation.");
+        }
+    }
+
 }

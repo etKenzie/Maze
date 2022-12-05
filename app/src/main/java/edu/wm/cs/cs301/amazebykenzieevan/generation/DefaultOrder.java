@@ -299,9 +299,6 @@ public class DefaultOrder implements Order {
 	public void updateProgress(int percentage) {
 		Log.d(TAG, "receive info about progress (completion of maze generation): " + percentage);
 
-//		if(StateGenerating.getInstance() != null) {
-//			StateGenerating.getInstance().updateProgressBar(percentage);
-//		}
 
 		if (0 <= percentage && percentage <= 100) {
 			progress = percentage;
