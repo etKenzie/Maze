@@ -184,12 +184,12 @@
         android:id="@+id/textF"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:background="#69F421"
         android:text="@string/F"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textShowWall2" />
 
@@ -203,23 +203,23 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textF"
-        app:layout_constraintVertical_bias="0.017" />
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toEndOf="@+id/textL"
+        app:layout_constraintTop_toBottomOf="@+id/textR"
+        app:layout_constraintVertical_bias="0.02" />
 
     <TextView
         android:id="@+id/textR"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="317dp"
         android:background="#69F421"
         android:text="@string/R"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintStart_toEndOf="@+id/textF"
         app:layout_constraintTop_toBottomOf="@+id/textShowWall2" />
 
     <TextView
@@ -227,14 +227,14 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="8dp"
         android:background="#69F421"
         android:text="@string/L"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textShowWall2" />
+        app:layout_constraintTop_toBottomOf="@+id/textF" />
 
     <TextView
         android:id="@+id/textSensorStatus"
