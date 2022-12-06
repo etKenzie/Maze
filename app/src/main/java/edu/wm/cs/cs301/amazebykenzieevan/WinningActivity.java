@@ -20,7 +20,7 @@ public class WinningActivity extends AppCompatActivity {
     TextView textShortestPath;
 
     // Energy Consumed by Robot and Text instance
-    int energyConsumed;
+    float energyConsumed;
     TextView textEnergyConsumed;
 
     @Override
@@ -44,7 +44,7 @@ public class WinningActivity extends AppCompatActivity {
 
         // Adjust Energy Consumed
         textEnergyConsumed = findViewById(R.id.textEnergyConsumed);
-        energyConsumed = intent.getExtras().getInt("energyConsumed");
+        energyConsumed = intent.getExtras().getFloat("energyConsumed");
 
         if (energyConsumed == 0){
             textEnergyConsumed.setText("");

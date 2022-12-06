@@ -1,8 +1,7 @@
 package edu.wm.cs.cs301.amazebykenzieevan.gui;
 
+import edu.wm.cs.cs301.amazebykenzieevan.PlayAnimationActivity;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.CardinalDirection;
-import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
-import edu.wm.cs.cs301.amazebykenzieevan.gui.Constants.UserInput;
 
 /** @author Kenzie Evan
  * 
@@ -17,7 +16,8 @@ import edu.wm.cs.cs301.amazebykenzieevan.gui.Constants.UserInput;
  */
 
 public class ReliableRobot implements Robot {
-	/** 
+	private static final String TAG = "ReliableRobot";
+	/**
 	 * For all function we subtract the cost to Battery as just calling the function has cost
 	 * 
 	 * Initialize a Controller Object
@@ -25,7 +25,8 @@ public class ReliableRobot implements Robot {
 	 * Initialize Odometer (distance traveled)Object
 	 * Initialize stop boolean object for hasStopped operation
 	 */
-	Control Controller;
+
+	PlayAnimationActivity Activity;
 	float Battery;
 	int Odometer;
 	boolean stopped;
@@ -52,10 +53,12 @@ public class ReliableRobot implements Robot {
 	 * Sets the robot to access controller and makes sure controller is working
 	 */
 	@Override
-	public void setController(Control controller) {
-		this.Controller = controller;
+	public void setActivity(PlayAnimationActivity activity) {
+		this.Activity = activity;
 		
 	}
+
+
 	/**
 	 * Initializes Distance Sensors for Robot to use in the direction given as a parameter
 	 * @param sensor is the sensor to add to the robot
@@ -68,7 +71,8 @@ public class ReliableRobot implements Robot {
 			
 			// Set forwardSensor Maze and Direction
 			forwardSensor.setSensorDirection(mountedDirection);
-			forwardSensor.setMaze(this.Controller.getMaze());
+			forwardSensor.setMaze(Activity.getMaze());
+
 			
 		}
 		else if (mountedDirection == Direction.LEFT) {
@@ -76,18 +80,18 @@ public class ReliableRobot implements Robot {
 			
 			// Set leftSensor Maze and Direction
 			leftSensor.setSensorDirection(mountedDirection);
-			leftSensor.setMaze(this.Controller.getMaze());
+			leftSensor.setMaze(Activity.getMaze());
 			
 		}
 		else if (mountedDirection == Direction.RIGHT) {
 			this.rightSensor = sensor;
 			rightSensor.setSensorDirection(mountedDirection);
-			rightSensor.setMaze(this.Controller.getMaze());
+			rightSensor.setMaze(Activity.getMaze());
 		}
 		else if (mountedDirection == Direction.BACKWARD) {
 			this.backwardSensor = sensor;
 			backwardSensor.setSensorDirection(mountedDirection);
-			backwardSensor.setMaze(this.Controller.getMaze());
+			backwardSensor.setMaze(Activity.getMaze());
 		}
 	}
 
@@ -97,7 +101,7 @@ public class ReliableRobot implements Robot {
 	 */
 	@Override
 	public int[] getCurrentPosition() throws Exception {
-		int[] curPosition = this.Controller.getCurrentPosition();
+		int[] curPosition = Activity.getCurrentPosition();
 		return curPosition;
 	}
 	
@@ -107,7 +111,7 @@ public class ReliableRobot implements Robot {
 	 */
 	@Override
 	public CardinalDirection getCurrentDirection() {
-		CardinalDirection curDirection = this.Controller.getCurrentDirection();
+		CardinalDirection curDirection = Activity.getCurrentDirection();
 		return curDirection;
 	}
 	/** 
@@ -187,14 +191,14 @@ public class ReliableRobot implements Robot {
 		//if turn is left
 		if (turn == Turn.LEFT) {
 			// Do a left press key on the controller
-			this.Controller.currentState.handleUserInput(UserInput.LEFT, 0);
+			Activity.rotate(1);
 		}
 			
 		
 		//else if turn is right
 		else if (turn == Turn.RIGHT) {
 			// Do a right press key on controller
-			this.Controller.currentState.handleUserInput(UserInput.RIGHT, 0);
+			Activity.rotate(-1);
 
 		}
 		//else if turn is around
@@ -204,8 +208,8 @@ public class ReliableRobot implements Robot {
 				return;
 			}
 			// Go right two times
-			this.Controller.currentState.handleUserInput(UserInput.RIGHT, 0);
-			this.Controller.currentState.handleUserInput(UserInput.RIGHT, 0);
+			Activity.rotate(1);
+			Activity.rotate(1);
 		}
 	}
 
@@ -232,13 +236,13 @@ public class ReliableRobot implements Robot {
 			}
 		
 			//get current position and direction to check if there is a wall
-			int x = this.Controller.getCurrentPosition()[0];
-			int y = this.Controller.getCurrentPosition()[1];;
+			int x = Activity.getCurrentPosition()[0];
+			int y = Activity.getCurrentPosition()[1];;
 	
 			//check there is no wall in front 
-			if(Controller.getMaze().hasWall(x, y, this.Controller.getCurrentDirection()) == false) {
+			if(Activity.getMaze().hasWall(x, y, Activity.getCurrentDirection()) == false) {
 				// Move forward on controller
-				this.Controller.currentState.handleUserInput(UserInput.UP, 0);
+				Activity.walk(1);
 				// Increment Odometer
 				Odometer++;
 			}
@@ -260,46 +264,46 @@ public class ReliableRobot implements Robot {
 	@Override
 	public void jump() {
 
-		// Get current position and direction
-		int x = this.Controller.getCurrentPosition()[0];
-		int y = this.Controller.getCurrentPosition()[1];
-		
-		int[] cardDirection = getCurrentDirection().getDxDyDirection();
-		int dx = cardDirection[0];
-		int dy = cardDirection[1];
-		
-		//Check if there is a wall in front of robot 
-		if(this.Controller.getMaze().hasWall(x, y, this.Controller.getCurrentDirection())==true) {
-			// Subtract energy for jump. 40 in this case
-			Battery -= 40;
-			
-			// Check battery Level if enough for a jump & has stopped is false
-			if(Battery < 40 || hasStopped() == true) {
-				return;
-			}
-			
-			// if not a valid position to jump stop the robot!!!
-			if(x+dx < 0 || x+dx > this.Controller.getMaze().getWidth()-1) {
-				stopped = true;
-				System.out.print("Robot Tries to jump over border!!!");
-				return;
-			}
-			else if(y+dy < 0 || y+dy > this.Controller.getMaze().getHeight()-1) {
-				stopped = true;
-				System.out.print("Robot Tries to jump over border!!!");
-				return;
-			}
-			// Jump over wall
-			this.Controller.currentState.handleUserInput(UserInput.JUMP, 0);
-			
-			// Increment Odometer
-			Odometer++;
-		
-		}
-		else {
-			// Move 1 distance instead
-			this.move(1);
-		}
+//		// Get current position and direction
+//		int x = Activity.getCurrentPosition()[0];
+//		int y = Activity.getCurrentPosition()[1];
+//
+//		int[] cardDirection = getCurrentDirection().getDxDyDirection();
+//		int dx = cardDirection[0];
+//		int dy = cardDirection[1];
+//
+//		//Check if there is a wall in front of robot
+//		if(Activity.getMaze().hasWall(x, y, Activity.getCurrentDirection())==true) {
+//			// Subtract energy for jump. 40 in this case
+//			Battery -= 40;
+//
+//			// Check battery Level if enough for a jump & has stopped is false
+//			if(Battery < 40 || hasStopped() == true) {
+//				return;
+//			}
+//
+//			// if not a valid position to jump stop the robot!!!
+//			if(x+dx < 0 || x+dx > Activity.getMaze().getWidth()-1) {
+//				stopped = true;
+//				System.out.print("Robot Tries to jump over border!!!");
+//				return;
+//			}
+//			else if(y+dy < 0 || y+dy > Activity.getMaze().getHeight()-1) {
+//				stopped = true;
+//				System.out.print("Robot Tries to jump over border!!!");
+//				return;
+//			}
+//			// Jump over wall
+//			Activity.handleUserInput(UserInput.JUMP, 0);
+//
+//			// Increment Odometer
+//			Odometer++;
+//
+//		}
+//		else {
+//			// Move 1 distance instead
+//			this.move(1);
+//		}
 			
 	}
 	
@@ -310,11 +314,11 @@ public class ReliableRobot implements Robot {
 	@Override
 	public boolean isAtExit() {
 		// Get Coordinates of Robot
-		int x = this.Controller.getCurrentPosition()[0];
-		int y = this.Controller.getCurrentPosition()[1];
+		int x = Activity.getCurrentPosition()[0];
+		int y = Activity.getCurrentPosition()[1];
 		
 		// Check if current coordinate has a distance of 1 from exit
-		if (this.Controller.getMaze().getDistanceToExit(x, y) == 1) {
+		if (Activity.getMaze().getDistanceToExit(x, y) == 1) {
 			//return true
 			return true;
 		}
@@ -330,11 +334,11 @@ public class ReliableRobot implements Robot {
 	@Override
 	public boolean isInsideRoom() {
 		// Get current coordinates
-		int x = this.Controller.getCurrentPosition()[0];
-		int y = this.Controller.getCurrentPosition()[1];
+		int x = Activity.getCurrentPosition()[0];
+		int y = Activity.getCurrentPosition()[1];
 		
 		//return Maze.isInRoom(coordinate)
-		return this.Controller.getMaze().isInRoom(x, y);
+		return Activity.getMaze().isInRoom(x, y);
 	}
 	
 	/**
@@ -386,7 +390,7 @@ public class ReliableRobot implements Robot {
 		
 		
 		// Current Forward Direction
-		CardinalDirection forward = this.Controller.getCurrentDirection();
+		CardinalDirection forward = Activity.getCurrentDirection();
 		
 		// If Direction is Left
 		if(direction == Direction.LEFT) {
@@ -397,7 +401,7 @@ public class ReliableRobot implements Robot {
 			
 			try {
 				// Use the Distance Sensor and assign that value to distance
-				distance = leftSensor.distanceToObstacle(this.Controller.getCurrentPosition(), left, ps);
+				distance = leftSensor.distanceToObstacle(Activity.getCurrentPosition(), left, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -406,7 +410,7 @@ public class ReliableRobot implements Robot {
 		else if (direction == Direction.RIGHT) {
 			CardinalDirection right = forward.rotateClockwise().oppositeDirection();
 			try {
-				distance = rightSensor.distanceToObstacle(this.Controller.getCurrentPosition(), right, ps);
+				distance = rightSensor.distanceToObstacle(Activity.getCurrentPosition(), right, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -415,7 +419,7 @@ public class ReliableRobot implements Robot {
 		else if (direction == Direction.BACKWARD) {
 			CardinalDirection backward = forward.rotateClockwise().rotateClockwise();
 			try {
-				distance = backwardSensor.distanceToObstacle(this.Controller.getCurrentPosition(), backward, ps);
+				distance = backwardSensor.distanceToObstacle(Activity.getCurrentPosition(), backward, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -423,7 +427,7 @@ public class ReliableRobot implements Robot {
 		}
 		else if(direction == Direction.FORWARD) {
 			try {
-				return forwardSensor.distanceToObstacle(this.Controller.getCurrentPosition(), forward, ps);
+				return forwardSensor.distanceToObstacle(Activity.getCurrentPosition(), forward, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -456,7 +460,7 @@ public class ReliableRobot implements Robot {
 		int distance = 0; 
 		
 		// Current Forward Direction
-		CardinalDirection forward = this.Controller.getCurrentDirection();
+		CardinalDirection forward = Activity.getCurrentDirection();
 		
 		// If Direction is Left 
 		if(direction == Direction.LEFT) {
@@ -467,7 +471,7 @@ public class ReliableRobot implements Robot {
 			// Set the maze of leftSensor
 			try {
 				// Use the Distance Sensor and assign that value to distance
-				distance = leftSensor.distanceToObstacle(this.Controller.getCurrentPosition(), left, ps);
+				distance = leftSensor.distanceToObstacle(Activity.getCurrentPosition(), left, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -476,7 +480,7 @@ public class ReliableRobot implements Robot {
 		else if (direction == Direction.RIGHT) {
 			CardinalDirection right = forward.rotateClockwise();
 			try {
-				distance = rightSensor.distanceToObstacle(this.Controller.getCurrentPosition(), right, ps);
+				distance = rightSensor.distanceToObstacle(Activity.getCurrentPosition(), right, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -485,7 +489,7 @@ public class ReliableRobot implements Robot {
 		else if (direction == Direction.BACKWARD) {
 			CardinalDirection backward = forward.rotateClockwise().rotateClockwise();
 			try {
-				distance = backwardSensor.distanceToObstacle(this.Controller.getCurrentPosition(), backward, ps);
+				distance = backwardSensor.distanceToObstacle(Activity.getCurrentPosition(), backward, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -494,7 +498,7 @@ public class ReliableRobot implements Robot {
 		else if(direction == Direction.FORWARD) {
 			try {
 				
-				distance = forwardSensor.distanceToObstacle(this.Controller.getCurrentPosition(), forward, ps);
+				distance = forwardSensor.distanceToObstacle(Activity.getCurrentPosition(), forward, ps);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.amazebykenzieevan.gui;
 //import generation.CardinalDirection;
 
 
+import edu.wm.cs.cs301.amazebykenzieevan.PlayAnimationActivity;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.CardinalDirection;
 
 /**
@@ -76,12 +77,12 @@ public interface Robot {
 	 * and for initialization purposes. The controller serves as the main source of information
 	 * for the robot about the current position, the presence of walls, the reaching of an exit.
 	 * The controller is assumed to be in the playing state.
-	 * @param controller is the communication partner for robot
+	 * @param activity is the communication partner for robot
 	 * @throws IllegalArgumentException if controller is null,
 	 * or if controller is not in playing state,
 	 * or if controller does not have a maze
 	 */
-	void setController(Control controller);
+	void setActivity(PlayAnimationActivity activity);
 	/**
 	 * Adds a distance sensor to the robot such that it measures in the given direction.
 	 * This method is used when a robot is initially configured to get ready for operation.

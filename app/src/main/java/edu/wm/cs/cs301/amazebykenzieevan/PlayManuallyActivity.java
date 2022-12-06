@@ -244,11 +244,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         super.onStart();
 
         Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(px,py));
-
         start();
-
-
-
 
     }
 

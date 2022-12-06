@@ -10,7 +10,7 @@ public class Constants {
 	// The panel used to display the maze has a fixed dimension Previous 400, 400
 	public static final int VIEW_WIDTH = 700;
 	public static final int VIEW_HEIGHT = 700;
-	public static final int MAP_UNIT = 5000;
+	public static final int MAP_UNIT = 128;
 	public static final int VIEW_OFFSET = MAP_UNIT/8;
 	public static final int STEP_SIZE = MAP_UNIT/4;
 	// Skill-level 

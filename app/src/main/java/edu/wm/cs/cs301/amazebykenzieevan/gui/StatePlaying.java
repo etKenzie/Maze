@@ -274,7 +274,7 @@ public class StatePlaying implements State {
             robot = new UnreliableRobot();
 
         }
-        robot.setController(control);
+//        robot.setController(control);
 
         robot.addDistanceSensor(forwardSensor, Direction.FORWARD);
         robot.addDistanceSensor(leftSensor, Direction.LEFT);

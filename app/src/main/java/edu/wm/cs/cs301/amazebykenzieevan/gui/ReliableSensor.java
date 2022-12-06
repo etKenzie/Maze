@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.amazebykenzieevan.gui;
 
 //import generation.CardinalDirection;
 
+import edu.wm.cs.cs301.amazebykenzieevan.MazeHolder;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.CardinalDirection;
 import edu.wm.cs.cs301.amazebykenzieevan.generation.Maze;
 import edu.wm.cs.cs301.amazebykenzieevan.gui.Robot.Direction;
@@ -34,7 +35,7 @@ public class ReliableSensor implements DistanceSensor {
 			throw new IndexOutOfBoundsException();
 		}
 		//Initialize Maze object to use
-		Maze currentMaze = this.maze; 
+		Maze currentMaze = MazeHolder.getInstance().getData();
 		
 		//Initialize distance = 0
 		int distance = 0; 
