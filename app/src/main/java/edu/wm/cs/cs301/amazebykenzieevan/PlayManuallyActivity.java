@@ -49,8 +49,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
     ImageButton buttonRightKey;
     ImageButton buttonBackKey;
 
-    // Integer to keep track of number of Clicks
+    // Integer to keep track of number of Clicks and Shortest Possible Path
     int pathLength;
+    int shortestPath;
 
     // Maze Panel and Maze Instance to go through
     MazePanel mazePanel;
@@ -94,6 +95,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 Log.d(TAG, "Map On: " + String.valueOf(showMap));
                 Toast.makeText(PlayManuallyActivity.this, "Map On: " + String.valueOf(showMap), Toast.LENGTH_SHORT).show();
 
+                draw(cd.angle(),0);
+
             }
         });
 
@@ -108,6 +111,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 Log.d(TAG, "Walls On: " + String.valueOf(showWalls));
                 Toast.makeText(PlayManuallyActivity.this, "Walls On: " + String.valueOf(showWalls), Toast.LENGTH_SHORT).show();
 
+                draw(cd.angle(),0);
             }
         });
 
@@ -121,6 +125,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 showSolution = toggleSolution.isChecked();
                 Log.d(TAG, "Solution On: " + String.valueOf(showSolution));
                 Toast.makeText(PlayManuallyActivity.this, "Solution On: " + String.valueOf(showSolution), Toast.LENGTH_SHORT).show();
+                draw(cd.angle(),0);
             }
         });
 
@@ -134,11 +139,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
         buttonForwardKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add 1 to moves and log direction
-                pathLength += 1;
                 Log.d(TAG, "Move Forward");
                 walk(1);
                 Toast.makeText(PlayManuallyActivity.this, "Move Forward", Toast.LENGTH_SHORT).show();
+
+                if(isOutside(px,py)) {
+                    goStateWinning();
+                }
             }
         });
 
@@ -163,6 +170,10 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 Log.d(TAG, "Rotate Right");
                 rotate(-1);
                 Toast.makeText(PlayManuallyActivity.this, "Rotate Right", Toast.LENGTH_SHORT).show();
+
+                if(isOutside(px,py)) {
+                    goStateWinning();
+                }
             }
         });
 
@@ -172,8 +183,6 @@ public class PlayManuallyActivity extends AppCompatActivity {
         buttonBackKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pathLength += 1;
-                Log.d(TAG, "Move Backwards");
                 walk(-1);
                 Toast.makeText(PlayManuallyActivity.this, "Move Backwards", Toast.LENGTH_SHORT).show();
             }
@@ -187,6 +196,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "Zoom In");
                 Toast.makeText(PlayManuallyActivity.this, "Zoom In", Toast.LENGTH_SHORT).show();
+
+                mapView.incrementMapScale();
+                draw(cd.angle(),0);
             }
         });
 
@@ -197,18 +209,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "Zoom Out");
                 Toast.makeText(PlayManuallyActivity.this, "Zoom Out", Toast.LENGTH_SHORT).show();
+
+                mapView.decrementMapScale();
+                draw(cd.angle(),0);
             }
         });
 
-
-        // Shortcut Exclusive p6 button
-        Button buttonShortcut = (Button) findViewById(R.id.buttonShortcut2);
-        buttonShortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goStateWinning();
-            }
-        });
 
         // Maze Panel Instance to use
         mazePanel = (MazePanel) findViewById(R.id.mazePanelAnimation);
@@ -237,16 +243,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(2,2));
-
-//        Control controller = new Control(mazePanel);
-//        StatePlaying currentState = new StatePlaying();
-//
-//        currentState.setMaze(newMaze);
-//        currentState.setDriver(0);
-//        currentState.setPanel(mazePanel);
-
-//        mazePanel.testImage();
+        Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(px,py));
 
         start();
 
@@ -299,6 +296,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private void setPositionDirectionViewingDirection() {
         int[] start = newMaze.getStartingPosition() ;
         setCurrentPosition(start[0],start[1]) ;
+
+        shortestPath = newMaze.getDistanceToExit(start[0],start[1]);
+
         cd = CardinalDirection.East;
     }
 
@@ -448,6 +448,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
         logPosition(); // debugging
         drawHintIfNecessary();
 
+        pathLength += 1;
+
         mazePanel.commit();
     }
 
@@ -524,6 +526,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private void goStateWinning() {
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
+        intent.putExtra("shortestPath", shortestPath);
         intent.putExtra("energyConsumed", 0);
         startActivity(intent);
     }

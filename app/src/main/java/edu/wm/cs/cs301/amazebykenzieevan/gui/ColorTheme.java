@@ -142,7 +142,7 @@ public class ColorTheme {
 		}
 		Color getWallColor(final int distance, final int cc, final int extensionX) {
 			LOGGER.log(Level.FINEST, "regardless of input, returns color: " + Color.valueOf(Color.LTGRAY));
-			return Color.valueOf(Color.CYAN);
+			return Color.valueOf(80,130,80);
 	    }
 		//////// shared code for subclasses, not used in this class ////////
 	    /**

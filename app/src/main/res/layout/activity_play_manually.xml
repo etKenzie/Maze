@@ -91,38 +91,39 @@
         android:id="@+id/buttonZoomIn"
         android:layout_width="49dp"
         android:layout_height="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="84dp"
+        android:backgroundTint="#808080"
         android:text="@string/ZoomIn"
         android:textSize="24sp"
-        android:backgroundTint="#808080"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textShowSolution" />
-
-    <Button
-        android:id="@+id/buttonZoomOut"
-        android:layout_width="49dp"
-        android:layout_height="60dp"
-        android:text="@string/ZoomOut"
-        android:textSize="30sp"
-        android:backgroundTint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.958"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonZoomIn" />
 
     <TextView
         android:id="@+id/textZoom"
         android:layout_width="65dp"
         android:layout_height="18dp"
-        android:layout_marginTop="4dp"
-        android:textAlignment="center"
+        android:layout_marginTop="8dp"
         android:text="@string/Zoom"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonZoomOut" />
+
+    <Button
+        android:id="@+id/buttonZoomOut"
+        android:layout_width="49dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#808080"
+        android:text="@string/ZoomOut"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonZoomIn" />
 
     <ImageButton
         android:id="@+id/buttonFowardKey"
@@ -189,16 +190,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/right_key" />
-
-    <Button
-        android:id="@+id/buttonShortcut2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/Shortcut"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFowardKey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

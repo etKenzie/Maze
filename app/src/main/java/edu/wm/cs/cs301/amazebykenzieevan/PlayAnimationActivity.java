@@ -61,8 +61,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
     int energyConsumed;
 
     // Buttons to go to new activity
-    Button buttonGoWin;
-    Button buttonGoLose;
     String losingReason;
 
     // Maze Panel Instance and Maze Instance to Go through
@@ -194,28 +192,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
             }
         });
 
-        // Button to go to winning activity configuration
-        buttonGoWin = (Button) findViewById(R.id.buttonGoWin);
-        buttonGoLose = (Button) findViewById(R.id.buttonGoLose);
 
         // Hardcoded Values for p6 for pathLength and energyConsumed
         pathLength = 98;
         energyConsumed = 1024;
         losingReason = "Robot ran out of Energy.";
 
-        buttonGoWin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goWinningActivity();
-            }
-        });
-
-        buttonGoLose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goLosingActivity();
-            }
-        });
 
         // MazePanel Call and Instance
         mazePanelAnimation = findViewById(R.id.mazePanelAnimation);

@@ -16,6 +16,7 @@ public class WinningActivity extends AppCompatActivity {
     int pathLength;
     TextView textPathLength;
 
+    int shortestPath;
     TextView textShortestPath;
 
     // Energy Consumed by Robot and Text instance
@@ -36,7 +37,10 @@ public class WinningActivity extends AppCompatActivity {
         textPathLength.setText("Path Length: " + pathLength);
 
         // Adjust Shortest Path TextView
+        shortestPath = intent.getExtras().getInt("shortestPath");
         textShortestPath = findViewById(R.id.textShortestPath);
+
+        textShortestPath.setText("Shortest Path Length: " + shortestPath);
 
         // Adjust Energy Consumed
         textEnergyConsumed = findViewById(R.id.textEnergyConsumed);

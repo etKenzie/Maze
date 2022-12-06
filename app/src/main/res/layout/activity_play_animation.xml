@@ -272,28 +272,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/buttonGoWin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/GoWin"
-        app:layout_constraintBottom_toTopOf="@+id/seekbarSpeed"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonGoLose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/GoLost"
-        app:layout_constraintBottom_toTopOf="@+id/seekbarSpeed"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonGoWin" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

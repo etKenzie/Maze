@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 
+import edu.wm.cs.cs301.amazebykenzieevan.gui.Constants;
 import edu.wm.cs.cs301.amazebykenzieevan.gui.P7PanelF22;
 
 /**
@@ -56,11 +57,15 @@ public class MazePanel extends View  implements P7PanelF22 {
     private void init(@Nullable AttributeSet set){
         // Initializing Paint, Bitmap, and Canvas to draw Bitmap
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBitmap = Bitmap.createBitmap(530,530, Bitmap.Config.ARGB_8888);
+
+        imageWidth = Constants.VIEW_WIDTH;
+        imageHeight = Constants.VIEW_HEIGHT;
+
+        mBitmap = Bitmap.createBitmap(imageWidth,imageHeight, Bitmap.Config.ARGB_8888);
 
         UIcanvas = new Canvas(mBitmap);
 
-        imageWidth = imageHeight = 530;
+
     }
 
 
