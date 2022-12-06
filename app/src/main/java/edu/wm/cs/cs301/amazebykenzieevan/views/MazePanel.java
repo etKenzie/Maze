@@ -51,6 +51,8 @@ public class MazePanel extends View  implements P7PanelF22 {
 
         init(attrs);
     }
+
+
     private void init(@Nullable AttributeSet set){
         // Initializing Paint, Bitmap, and Canvas to draw Bitmap
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -62,11 +64,12 @@ public class MazePanel extends View  implements P7PanelF22 {
     }
 
 
+
     @Override
     protected void onDraw(Canvas UIcanvas) {
         super.onDraw(UIcanvas);
 
-        mBitmap = Bitmap.createScaledBitmap(mBitmap, 530, 530, false);
+//        mBitmap = Bitmap.createScaledBitmap(mBitmap, 530, 530, false);
         UIcanvas.drawBitmap(mBitmap, 0, 0, paint);
 
 
@@ -89,7 +92,7 @@ public class MazePanel extends View  implements P7PanelF22 {
         addFilledRectangle(50,280, 200,370);
 
         setColor(Color.BLUE);
-        int[] xpoints = {10,120,230,240,250};
+        int[] xpoints = {10,120,230,240,530};
         int[] ypoints = {110,220,330,440,150};
 
         addFilledPolygon(xpoints,ypoints,5);
@@ -104,7 +107,7 @@ public class MazePanel extends View  implements P7PanelF22 {
      */
     @Override
     public void commit() {
-        postInvalidate();
+        invalidate();
     }
 
     /**
@@ -169,6 +172,7 @@ public class MazePanel extends View  implements P7PanelF22 {
         addFilledRectangle(0,imageHeight/2, imageWidth, imageHeight);
 
 
+
     }
 
     /**
@@ -200,10 +204,12 @@ public class MazePanel extends View  implements P7PanelF22 {
         path.moveTo(xPoints[0],xPoints[1]);
 
         // Draw lines between the two Points
-        path.lineTo(xPoints[0], yPoints[0]);
         for (int i=1; i<nPoints; i++) {
             path.lineTo(xPoints[i],yPoints[i]);
         }
+
+        path.lineTo(xPoints[0], yPoints[0]);
+
 
         // Draw Path on Bitmap
         UIcanvas.drawPath(path,paint);
@@ -227,10 +233,10 @@ public class MazePanel extends View  implements P7PanelF22 {
         path.moveTo(xPoints[0],xPoints[1]);
 
         // Draw lines between the two Points
-        path.lineTo(xPoints[0], yPoints[0]);
         for (int i=1; i<nPoints; i++) {
             path.lineTo(xPoints[i],yPoints[i]);
         }
+        path.lineTo(xPoints[0], yPoints[0]);
 
         // Draw Path on Bitmap
         UIcanvas.drawPath(path,paint);

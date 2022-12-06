@@ -25,21 +25,21 @@ public class ColorTheme {
 	
 	
 	// General color settings across multiple screens
-	private static final Color greenWM = Color.valueOf(Color.parseColor("#115740"));
-	private static final Color goldWM = Color.valueOf(Color.parseColor("#916f41"));
-	private static final Color blackWM = Color.valueOf(Color.parseColor("#222222"));
-	private static final Color yellowWM = Color.valueOf(Color.parseColor("#FFFF99"));
+	private static final int greenWM = Color.parseColor("#115740");
+	private static final int goldWM = Color.parseColor("#916f41");
+	private static final int blackWM = Color.parseColor("#222222");
+	private static final int yellowWM = Color.parseColor("#FFFF99");
 
 	//specifically for CompassRose.java, corresponding enum values have prefix COMPASSROSE_
 	// fixed configuration for arms
-    private static final Color MAIN_COLOR = greenWM; //new Color(0.4f, 0.4f, 1.0f);
+    private static final int MAIN_COLOR = greenWM; //new Color(0.4f, 0.4f, 1.0f);
     // fixed configuration for circle surrounding arms
-    private static final Color CIRCLE_HIGHLIGHT = Color.valueOf(1.0f, 1.0f, 1.0f, 0.8f);
+    private static final int CIRCLE_HIGHLIGHT = Color.parseColor("#115740");
     //Color.decode("#115740").darker();// = new Color(1.0f, 1.0f, 1.0f, 0.8f); 
-    private static final Color CIRCLE_SHADE = Color.valueOf(1.0f, 1.0f, 1.0f, 0.3f);
-    //Color.decode("#115740").brighter(); //new Color(0.0f, 0.0f, 0.0f, 0.2f); 
+    private static final int CIRCLE_SHADE = Color.parseColor("#222222");
+    //Color.decode("#115740").brighter(); //new Color(0.0f, 0.0f, 0.0f, 0.2f);
     // fixed configuration for letters used to indicate direction
-    private static final Color MARKER_COLOR = Color.valueOf(Color.BLACK);
+    private static final int MARKER_COLOR = Color.BLACK;
     
     // Logger to track execution
     private static final Logger LOGGER = Logger.getLogger(ColorTheme.class.getName());
@@ -58,25 +58,25 @@ public class ColorTheme {
 		// address needs from Map.java
 		// requires predefined color for white (seen), grey for other walls, red for currentlocation, yellow for solution
 		
-	public static Color getColor(MazeColors color) {
+	public static int getColor(MazeColors color) {
 		switch (color) {
 		// unused color settings for FirstPersonView, background
 		// original color choices for background black on top, dark gray at bottom
 		case BACKGROUND_TOP: 
-			return Color.valueOf(Color.BLACK); // unused, just for completeness
+			return (Color.BLACK); // unused, just for completeness
 		case BACKGROUND_BOTTOM:
-			return Color.valueOf(Color.DKGRAY); // unused, just for completeness
+			return (Color.DKGRAY); // unused, just for completeness
 		// color settings for Map
 		case MAP_DEFAULT:
-			return Color.valueOf(Color.WHITE);
+			return (Color.WHITE);
 		case MAP_WALL_DEFAULT:
-			return Color.valueOf(Color.GRAY);
+			return (Color.GRAY);
 		case MAP_WALL_SEENBEFORE:
-			return Color.valueOf(Color.WHITE);
+			return (Color.WHITE);
 		case MAP_CURRENTLOCATION:
-			return Color.valueOf(Color.RED);
+			return (Color.RED);
 		case MAP_SOLUTION:
-			return Color.valueOf(Color.YELLOW);
+			return (Color.YELLOW);
 		// color settings for CompassRose
 		case COMPASSROSE_MAIN_COLOR:
 			return MAIN_COLOR;
@@ -89,7 +89,7 @@ public class ColorTheme {
 		case COMPASSROSE_MARKER_COLOR_CURRENTDIRECTION:
 			return MARKER_COLOR;
 		case COMPASSROSE_BACKGROUND:
-			return Color.valueOf(Color.WHITE);
+			return Color.WHITE;
 		// color settings for SimpleScreens
 		case TITLE_DEFAULT:
 			return blackWM;
@@ -102,30 +102,30 @@ public class ColorTheme {
 		case FRAME_MIDDLE:
 			return goldWM;
 		case FRAME_INSIDE:
-			return Color.valueOf(Color.WHITE);
+			return Color.WHITE;
 		// color settings for FirstPersonView
 		case FIRSTPERSON_DEFAULT:
-			return Color.valueOf(Color.WHITE);
+			return Color.WHITE;
 		default:
 			break;
 		}
-		return Color.valueOf(Color.WHITE); // this is a mistake if you get here!!!
+		return Color.WHITE; // this is a mistake if you get here!!!
 	}
 	
-	/**
-	 * Creates an opaque sRGB color with the specified combined RGB value
-	 * consisting of the red component in bits 16-23,
-	 * the green component in bits 8-15,
-	 * and the blue component in bits 0-7. 
-	 * The actual color used in rendering depends on finding the best match
-	 * given the color space available for a particular output device.
-	 * Alpha is defaulted to 255.
-	 * @param rgb the rgb value
-	 * @return the matching instance of a color
-	 */
-	public static Color getColor(int rgb) {
-		return Color.valueOf(rgb);
-	}
+//	/**
+//	 * Creates an opaque sRGB color with the specified combined RGB value
+//	 * consisting of the red component in bits 16-23,
+//	 * the green component in bits 8-15,
+//	 * and the blue component in bits 0-7.
+//	 * The actual color used in rendering depends on finding the best match
+//	 * given the color space available for a particular output device.
+//	 * Alpha is defaulted to 255.
+//	 * @param rgb the rgb value
+//	 * @return the matching instance of a color
+//	 */
+//	public static int getColor(int rgb) {
+//		return Color.valueOf(rgb);
+//	}
 	/**
 	 * Class encapsulates a color setting for the background and walls.
 	 * The background is black on top, darkgray on the bottom. 
@@ -142,7 +142,7 @@ public class ColorTheme {
 		}
 		Color getWallColor(final int distance, final int cc, final int extensionX) {
 			LOGGER.log(Level.FINEST, "regardless of input, returns color: " + Color.valueOf(Color.LTGRAY));
-			return Color.valueOf(Color.LTGRAY);
+			return Color.valueOf(Color.CYAN);
 	    }
 		//////// shared code for subclasses, not used in this class ////////
 	    /**
@@ -254,14 +254,14 @@ public class ColorTheme {
 		 * top is true for the top rectangle, false for the bottom
 		 * @return the color to use for the background rectangle
 		 */
-		@Override
-		Color getColor(MazeColors color, float percentToExit) {
-			Color result = (MazeColors.BACKGROUND_TOP == color)? 
-					blend(yellowWM, goldWM, percentToExit) : 
-						blend(Color.valueOf(Color.LTGRAY), greenWM, percentToExit);
-			LOGGER.log(Level.FINEST, "given:" + color + ", returns color: " + result);
-	        return result;
-		}
+//		@Override
+//		int getColor(MazeColors color, float percentToExit) {
+//			int result = (MazeColors.BACKGROUND_TOP == color)?
+//					ColorUtils.blendARGB(yellowWM, goldWM, percentToExit) :
+//					ColorUtils.blendARGB(Color.LTGRAY, greenWM, percentToExit);
+//			LOGGER.log(Level.FINEST, "given:" + color + ", returns color: " + result);
+//	        return result;
+//		}
 		/**
 		 * Calculates the weighted average of the two given colors.
 		 * The weight for the first color is expected to be between
@@ -363,24 +363,24 @@ public class ColorTheme {
 	
 	
 	// address needs from FirstPersonView.java
-	/**
-	 * Determine the background color for the top and bottom
-	 * rectangle. The resulting color choices depend on the 
-	 * configuration of the ColorTheme either being basic or advanced.
-	 * In the basic settings the top is black, the bottom is dark gray
-	 * regardless of the percentToExit. 
-	 * In the advanced setting the color is a blend between the 
-	 * starting color settings of yellowWM and lightGray 
-	 * towards goldWM and greenWM as final
-	 * color settings close to the exit
-	 * @param percentToExit describes how far it is to the exit as a percentage value
-	 * @param color is BACKGROUND_TOP for the upper rectangle or BACKGROUND_BOTTTOM
-	 * for the lower one
-	 * @return the color to use for the background rectangle
-	 */
-	public static Color getColor(MazeColors color, float percentToExit) {
-		return getColorSettings().getColor(color, percentToExit);
-	}
+//	/**
+//	 * Determine the background color for the top and bottom
+//	 * rectangle. The resulting color choices depend on the
+//	 * configuration of the ColorTheme either being basic or advanced.
+//	 * In the basic settings the top is black, the bottom is dark gray
+//	 * regardless of the percentToExit.
+//	 * In the advanced setting the color is a blend between the
+//	 * starting color settings of yellowWM and lightGray
+//	 * towards goldWM and greenWM as final
+//	 * color settings close to the exit
+//	 * @param percentToExit describes how far it is to the exit as a percentage value
+//	 * @param color is BACKGROUND_TOP for the upper rectangle or BACKGROUND_BOTTTOM
+//	 * for the lower one
+//	 * @return the color to use for the background rectangle
+//	 */
+//	public static int getColor(MazeColors color, float percentToExit) {
+//		return getColorSettings().getColor(color, percentToExit);
+//	}
 
 	/**
      * Determines the color for a wall.
