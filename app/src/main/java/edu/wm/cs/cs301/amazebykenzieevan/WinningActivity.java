@@ -1,7 +1,9 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,11 @@ public class WinningActivity extends AppCompatActivity {
     // Energy Consumed by Robot and Text instance
     float energyConsumed;
     TextView textEnergyConsumed;
+
+    private static final String TAG = "WinningActivity";
+
+    // Media Player for Music
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +60,20 @@ public class WinningActivity extends AppCompatActivity {
             textEnergyConsumed.setText("Robot Energy Consumed: " + energyConsumed);
         }
 
-
-
-
-
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Starts the mp3
+        player = MediaPlayer.create(this, R.raw.winning);
+
+        player.setLooping(true);
+        player.start();
+        Log.d(TAG, "Media Started");
+    }
+
+
     /**
      * Function to change what happens when back button is pressed
      */
@@ -66,5 +81,20 @@ public class WinningActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
+    }
+    /**
+     * Method to Stop the music from playing, resetting it, and releasing it
+     */
+    private void stopPlayer() {
+        if (player!=null) {
+            player.release();
+            player = null;
+            Log.d(TAG, "Media Stopped");
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
     }
 }

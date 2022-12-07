@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -115,6 +116,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
     TextView textEnergyLevel;
 
     private static final String TAG = "PlayAnimationActivity";
+
+    // Media Player for Music
+    MediaPlayer player;
 
 
     @Override
@@ -432,6 +436,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
         super.onStart();
 
         start();
+
+        // Starts the mp3
+        player = MediaPlayer.create(this, R.raw.playanimation);
+        player.setLooping(true);
+
+        player.start();
+        Log.d(TAG, "Media Started");
+
+
 
     }
 
@@ -825,6 +838,21 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
+    }
+    /**
+     * Method to Stop the music from playing, resetting it, and releasing it
+     */
+    private void stopPlayer() {
+        if (player!=null) {
+            player.release();
+            player = null;
+            Log.d(TAG, "Media Stopped");
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
     }
 
 }

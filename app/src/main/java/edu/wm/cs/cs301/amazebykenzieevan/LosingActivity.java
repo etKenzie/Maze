@@ -1,7 +1,9 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,11 @@ public class LosingActivity extends AppCompatActivity {
     // Losing Reason and Text instance
     TextView textLosingReason;
     String losingReason;
+
+    private static final String TAG = "LosingActivity";
+
+    // Media Player for Music
+    MediaPlayer player;
 
 
     @Override
@@ -61,6 +68,17 @@ public class LosingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Starts the mp3
+        player = MediaPlayer.create(this, R.raw.losing);
+
+        player.setLooping(true);
+        player.start();
+        Log.d(TAG, "Media Started");
+    }
+
     /**
      * Function to change what happens when back button is pressed
      */
@@ -69,4 +87,21 @@ public class LosingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
     }
+
+    /**
+     * Method to Stop the music from playing, resetting it, and releasing it
+     */
+    private void stopPlayer() {
+        if (player!=null) {
+            player.release();
+            player = null;
+            Log.d(TAG, "Media Stopped");
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
+    }
+
 }

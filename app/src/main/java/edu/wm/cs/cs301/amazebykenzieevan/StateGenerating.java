@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,8 +50,12 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     Maze newMaze;
     private static StateGenerating instance;
 
+    // Progress of maze and Singleton Holder class to get maze to different activities
     int progress;
     private MazeHolder mazeHolder;
+
+    // MUSIC Media Player
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +140,14 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
     protected void onStart()
     {
         super.onStart();
+        // Starts the mp3
+        player = MediaPlayer.create(this, R.raw.generating);
+        player.setLooping(true);
+
+        player.start();
+        Log.d(TAG, "Media Started");
+
+
         // Generate Maze to traverse for future activities
         MazeFactory factory = new MazeFactory();
 //        DefaultOrder order = new DefaultOrder(getSkillLevel(), getBuilder(), isPerfect(), getSeed());
@@ -252,6 +265,22 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
             progress = (percentage < 0) ? 0 : 100;
             Log.d(TAG, "range violation, " + percentage + " outside 0,1,...,100 range. Used closest legit value for mitigation.");
         }
+    }
+
+    /**
+     * Method to Stop the music from playing, resetting it, and releasing it
+     */
+    private void stopPlayer() {
+        if (player!=null) {
+            player.release();
+            player = null;
+            Log.d(TAG, "Media Stopped");
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
     }
 
 }

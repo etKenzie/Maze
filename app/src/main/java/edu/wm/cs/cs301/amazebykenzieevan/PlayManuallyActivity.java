@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -78,6 +79,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
     boolean started;
 
     private static final String TAG = "PlayManuallyActivity";
+
+    // Media Player for music
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,6 +246,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Starts the mp3
+        player = MediaPlayer.create(this, R.raw.playmanual);
+        player.setLooping(true);
+
+        player.start();
+        Log.d(TAG, "Media Started");
 
         Log.d(TAG, "onCreate: " + newMaze.getDistanceToExit(px,py));
         start();
@@ -535,4 +546,21 @@ public class PlayManuallyActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
     }
+
+    /**
+     * Method to Stop the music from playing, resetting it, and releasing it
+     */
+    private void stopPlayer() {
+        if (player!=null) {
+            player.release();
+            player = null;
+            Log.d(TAG, "Media Stopped");
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
+    }
+
 }
