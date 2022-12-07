@@ -282,6 +282,21 @@ public class PlayAnimationActivity extends AppCompatActivity {
         DistanceSensor rightSensor = new ReliableSensor();
         DistanceSensor backwardSensor = new ReliableSensor();
 
+        // According to Robot Configuration Edit whichSensors
+        String[] sensor = {"1","1","1","1"};
+        if(robotConfiguration.equals("Premium")){
+            // by Default all sensors work already
+        }
+        else if (robotConfiguration.equals("Mediocre")){
+            sensor = new String[]{"1","0","0","1"};
+        }
+        else if (robotConfiguration.equals("Soso")){
+            sensor = new String[]{"0","1","1","0"};
+        }
+        else if (robotConfiguration.equals("Shaky")){
+            sensor = new String[]{"0","0","0","0"};
+        }
+
         // Integer to help set robot type. If 0 robot is reliable if 1 robot is Unreliable
         int robotType = 0;
 
@@ -293,7 +308,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
         // This is for testing. Assume if not given whichSensors, by default it is all reliable.
         if (this.whichSensors == null) {
-            String[] sensor = {"1","1","1","1"};
+
             this.whichSensors = sensor;
         }
 
