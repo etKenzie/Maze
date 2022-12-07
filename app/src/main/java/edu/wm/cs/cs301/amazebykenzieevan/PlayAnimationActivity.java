@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -289,7 +290,44 @@ public class PlayAnimationActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
+                Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
                 stopRunnable = false;
+
+                if (robot.getOdometerReading() == 0) {
+                    /*
+                     *  Array of Directions that coincides with whichSensors. This is used to go with a for loop
+                     *  to start the failure and repair process of a unreliable sensor in that robots direction.
+                     *  Also, Thread is used here to adjust the amount of time in between starting these processes
+                     *  so that not all unreliable sensors are working and repairing at the exact same time.
+                     */
+                    // For Shaky its different because App crashes when waiting for too long.
+                    if (robotConfiguration.equals("Shaky")) {
+                        for(int index = 0; index<4; index++) {
+                            robot.startFailureAndRepairProcess(directionArray[index], 4, 2);
+                            try {
+                                // waits for 1.3 seconds before next start of failure and repair process
+                                Thread.sleep(900);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    else {
+                        for(int index = 0; index<4; index++) {
+                            if(whichSensors[index].equals("0")) {
+                                robot.startFailureAndRepairProcess(directionArray[index], 4, 2);
+                                try {
+                                    // waits for 1.3 seconds before next start of failure and repair process
+                                    Thread.sleep(1300);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    }
+
+                }
                 if (robot.isAtExit()) {
                     stopRunnable = true;
                     // While robot is not facing exit position
@@ -303,7 +341,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
                     pathLength += 1;
 
                     // For Loop to Stop the Threads from running.
-                    Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
                     for(int index = 0; index<4; index++) {
                         if(whichSensors[index].equals("0")) {
                             robot.stopFailureAndRepairProcess(directionArray[index]);
@@ -323,7 +360,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
                     losingReason = "Robot unable to Move Anymore.";
 
                     // For Loop to Stop the Threads from running.
-                    Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
                     for(int index = 0; index<4; index++) {
                         if(whichSensors[index].equals("0")) {
                             robot.stopFailureAndRepairProcess(directionArray[index]);
@@ -345,7 +381,38 @@ public class PlayAnimationActivity extends AppCompatActivity {
                     progbarEnergyLevel.setProgress(percent);
                     textEnergyLevel.setText("Energy: " + percent + "%");
 
+                    // Adjust Sensor Functionality. If Sensor Faulty
+                    if(robot.distanceToObstacle(Robot.Direction.FORWARD) == -1) {
+                        // Example how to change Color. Hex Value #F52424 for red and #69F421 for green
+                        textF.setBackgroundColor(Color.parseColor("#F52424"));
+                    }
+                    else {
+                        textF.setBackgroundColor(Color.parseColor("#69F421"));
+                    }
 
+                    if(robot.distanceToObstacle(Robot.Direction.LEFT) == -1) {
+                        // Example how to change Color. Hex Value #F52424 for red and #69F421 for green
+                        textL.setBackgroundColor(Color.parseColor("#F52424"));
+                    }
+                    else {
+                        textL.setBackgroundColor(Color.parseColor("#69F421"));
+                    }
+
+                    if(robot.distanceToObstacle(Robot.Direction.RIGHT) == -1) {
+                        // Example how to change Color. Hex Value #F52424 for red and #69F421 for green
+                        textR.setBackgroundColor(Color.parseColor("#F52424"));
+                    }
+                    else {
+                        textR.setBackgroundColor(Color.parseColor("#69F421"));
+                    }
+
+                    if(robot.distanceToObstacle(Robot.Direction.BACKWARD) == -1) {
+                        // Example how to change Color. Hex Value #F52424 for red and #69F421 for green
+                        textB.setBackgroundColor(Color.parseColor("#F52424"));
+                    }
+                    else {
+                        textB.setBackgroundColor(Color.parseColor("#69F421"));
+                    }
 
                     curRobotDriver.drive1Step2Exit();
                     mHandler.postDelayed(this, runnableSpeed);
@@ -461,98 +528,20 @@ public class PlayAnimationActivity extends AppCompatActivity {
         robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
         robot.addDistanceSensor(backwardSensor, Robot.Direction.BACKWARD);
 
-        /*
-         *  Array of Directions that coincides with whichSensors. This is used to go with a for loop
-         *  to start the failure and repair process of a unreliable sensor in that robots direction.
-         *  Also, Thread is used here to adjust the amount of time in between starting these processes
-         *  so that not all unreliable sensors are working and repairing at the exact same time.
-         */
-        Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
-
-        for(int index = 0; index<4; index++) {
-            if(whichSensors[index].equals("0")) {
-                robot.startFailureAndRepairProcess(directionArray[index], 4, 2);
-                try {
-                    // waits for 1.3 seconds before next start of failure and repair process
-                    Thread.sleep(1300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
-
-
         // Wizard Robot Driver Runner
         if(mazeDriver.equals("Wizard")) {
             curRobotDriver = new Wizard();
-
-
-
             curRobotDriver.setMaze(newMaze);
             curRobotDriver.setRobot(robot);
 
-//            if (curRobotDriver != null) {
-//                try {
-//                    // if wizard returns false then something has failed
-//                    if (curRobotDriver.drive2Exit() == false) {
-////                        success = false;
-////                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
-//
-//                    }
-//
-//                }
-//                catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
         // Using Wall Follower Driver
         else if(mazeDriver.equals("WallFollower")) {
-            System.out.println("WALLFOLLOWER!!");
             curRobotDriver = new WallFollower();
-
             curRobotDriver.setMaze(newMaze);
             curRobotDriver.setRobot(robot);
 
-//            if (curRobotDriver != null) {
-//                try {
-//                    // if wizard returns false then something has failed
-//                    if (curRobotDriver.drive2Exit() == false) {
-////                        success = false;
-////                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
-//
-//                    }
-//                }
-//                catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-
         }
-//        else if(driver == 3) {
-//            curRobotDriver = new SmartWizard();
-//
-//            curRobotDriver.setMaze(maze);
-//            curRobotDriver.setRobot(robot);
-//
-//            control.setRobotAndDriver(robot, curRobotDriver);
-//            if (curRobotDriver != null) {
-//                try {
-//                    // if wizard returns false then something has failed
-//                    if (curRobotDriver.drive2Exit() == false) {
-//                        success = false;
-////                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
-//                    }
-//
-//                }
-//                catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-
 
         mazeRunnable.run();
 
@@ -824,6 +813,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
+        mHandler.removeCallbacks(mazeRunnable);
 
         // For Loop to Stop the Threads from running.
         Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
@@ -832,6 +822,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 robot.stopFailureAndRepairProcess(directionArray[index]);
             }
         }
+
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
     }
