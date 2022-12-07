@@ -41,7 +41,7 @@
 
     <string name="GeneratingMaze">Generating Maze...</string>
 
-    <string name="ShowMaze">Show Full Maze</string>
+    <string name="ShowMaze">Show Map</string>
 
     <string name="ShowWall">Show Walls</string>
 

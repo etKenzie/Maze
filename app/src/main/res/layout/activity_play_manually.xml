@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/nature1"
     tools:context=".PlayManuallyActivity">
 
     <edu.wm.cs.cs301.amazebykenzieevan.views.MazePanel
@@ -34,6 +35,8 @@
         android:id="@+id/textShowSolution"
         android:layout_width="99dp"
         android:layout_height="21dp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/white"
         android:text="@string/ShowSolution"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +61,10 @@
         android:id="@+id/textShowWall"
         android:layout_width="87dp"
         android:layout_height="22dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/ShowWall"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +86,11 @@
         android:id="@+id/textShowMaze"
         android:layout_width="99dp"
         android:layout_height="23dp"
+        android:fontFamily="sans-serif-black"
+        android:textAlignment="center"
         android:text="@string/ShowMaze"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toggleMap" />

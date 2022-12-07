@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StateGenerating">
+    tools:context=".StateGenerating"
+    android:background="@drawable/mountains">
 
     <TextView
         android:id="@+id/titleStateGenerating"
@@ -69,6 +70,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="289dp"
         android:layout_height="20dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textProgressPercentage" />
@@ -79,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
