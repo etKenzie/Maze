@@ -16,10 +16,11 @@ public class LosingActivity extends AppCompatActivity {
     int pathLength;
     TextView textPathLength;
 
+    int shortestPath;
     TextView textShortestPath;
 
     // Energy Consumed by Robot and Text instance
-    int energyConsumed;
+    float energyConsumed;
     TextView textEnergyConsumed;
 
     // Losing Reason and Text instance
@@ -41,18 +42,16 @@ public class LosingActivity extends AppCompatActivity {
         textPathLength.setText("Path Length: " + pathLength);
 
         // Adjust Shortest Path TextView
+        shortestPath = intent.getExtras().getInt("shortestPath");
         textShortestPath = findViewById(R.id.textShortestPath2);
+
+        textShortestPath.setText("Shortest Path Length: " + shortestPath);
 
         // Adjust Energy Consumed
         textEnergyConsumed = findViewById(R.id.textEnergyConsumed2);
-        energyConsumed = intent.getExtras().getInt("energyConsumed");
+        energyConsumed = intent.getExtras().getFloat("energyConsumed");
 
-        if (energyConsumed == 0){
-            textEnergyConsumed.setText("");
-        }
-        else {
-            textEnergyConsumed.setText("Robot Energy Consumed: " + energyConsumed);
-        }
+        textEnergyConsumed.setText("Robot Energy Consumed: " + energyConsumed);
 
         // Get Reason for loss and adjust String
         textLosingReason = (TextView) findViewById(R.id.textLosingReason);

@@ -201,8 +201,6 @@ public class StateGenerating extends AppCompatActivity implements AdapterView.On
      * Class to transition to Play Animation Activity.
      */
     public void goAnimationActivity() {
-
-
         // Intent to change and then changes activity while storing some values
         Intent intent = new Intent(this, PlayAnimationActivity.class);
         intent.putExtra("mazeDriver", mazeDriver);

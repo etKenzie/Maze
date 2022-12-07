@@ -162,6 +162,7 @@
         android:background="@drawable/toggle_play_pause"
         android:textOff=""
         android:textOn=""
+        android:checked="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"

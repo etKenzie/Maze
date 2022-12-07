@@ -194,4 +194,10 @@ public class WallFollower implements RobotDriver{
 		return this.robot.getOdometerReading();
 	}
 
+	/**
+	 * Function that returns true if robot is at exit
+	 * @return boolean of if robot is at exit
+	 */
+
+
 }

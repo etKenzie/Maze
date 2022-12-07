@@ -86,6 +86,7 @@ public class Wizard implements RobotDriver {
 		int y = this.robot.getCurrentPosition()[1];
 		
 		// Get closer cell with getNeighbotCloserToExit
+
 		int[] destination = this.maze.getNeighborCloserToExit(x, y);
 		int dx = destination[0] - x;
 		int dy = destination[1] - y;
@@ -123,5 +124,7 @@ public class Wizard implements RobotDriver {
 		// Get current odometer reading.
 		return this.robot.getOdometerReading();
 	}
+
+
 
 }

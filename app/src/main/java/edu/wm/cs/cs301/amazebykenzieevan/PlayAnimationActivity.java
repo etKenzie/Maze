@@ -2,9 +2,11 @@ package edu.wm.cs.cs301.amazebykenzieevan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,7 +104,17 @@ public class PlayAnimationActivity extends AppCompatActivity {
     // Additional Components
     boolean started;
 
+    // Handler to handle UI
+    private Handler mHandler = new Handler();
+    boolean stopRunnable;
+    int runnableSpeed;
+
+    // Adjust Energy Level
+    ProgressBar progbarEnergyLevel;
+    TextView textEnergyLevel;
+
     private static final String TAG = "PlayAnimationActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +137,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 play = togglePlay.isChecked();
                 Log.d(TAG, "Play: " + String.valueOf(play));
                 Toast.makeText(PlayAnimationActivity.this, "Play: " + String.valueOf(play), Toast.LENGTH_SHORT).show();
+
+                if (play==true) {
+                    stopRunnable = true;
+                    mazeRunnable.run();
+                }
+                else {
+                    stopRunnable = false;
+                    mHandler.removeCallbacks(mazeRunnable);
+                }
             }
         });
 
@@ -215,6 +236,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
         seekbarSpeed = (SeekBar) findViewById(R.id.seekbarSpeed);
         textSpeed = (TextView) findViewById(R.id.textSpeed);
         speed = 50;
+        runnableSpeed = 300;
+
 
         seekbarSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -235,6 +258,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 Log.d(TAG, "Speed: " + speed + "%");
                 Toast.makeText(PlayAnimationActivity.this, "Speed: " + speed + "%", Toast.LENGTH_SHORT).show();
 
+                runnableSpeed = (100-speed) * 6;
+
+                Log.d(TAG, "runnableSpeed: " + runnableSpeed);
+                // Only if currently the maze is still running
+                if (play == true) {
+                    mHandler.removeCallbacks(mazeRunnable);
+                    mazeRunnable.run();
+                }
+
             }
         });
 
@@ -245,8 +277,88 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // New Maze Instance call
         newMaze = MazeHolder.getInstance().getData();
 
+        // Energy Progress Bar Initialization
+        progbarEnergyLevel = (ProgressBar) findViewById(R.id.progbarEnergyLevel);
+        textEnergyLevel = (TextView) findViewById(R.id.textEnergyLevel);
+
 
     }
+
+
+    private Runnable mazeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                stopRunnable = false;
+                if (robot.isAtExit()) {
+                    stopRunnable = true;
+                    // While robot is not facing exit position
+                    while(robot.canSeeThroughTheExitIntoEternity(Robot.Direction.FORWARD)==false){
+                        // rotate robot
+                        robot.rotate(Robot.Turn.LEFT);
+                    }
+                    // Move robot through the exit. But here it would cause Invalid Position Error so just add energy consumed
+                    // as this simulates moving forward once
+                    energyConsumed += 6;
+                    pathLength += 1;
+
+                    // For Loop to Stop the Threads from running.
+                    Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
+                    for(int index = 0; index<4; index++) {
+                        if(whichSensors[index].equals("0")) {
+                            robot.stopFailureAndRepairProcess(directionArray[index]);
+                        }
+                    }
+
+                    // Go to Winning Activity and Set energyConsumed
+                    energyConsumed = initialEnergy - robot.getBatteryLevel();
+
+                    goWinningActivity();
+                }
+
+                // If Robot Runs out of Battery
+                if (robot.getBatteryLevel() <= 7) {
+                    stopRunnable = true;
+
+                    losingReason = "Robot unable to Move Anymore.";
+
+                    // For Loop to Stop the Threads from running.
+                    Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
+                    for(int index = 0; index<4; index++) {
+                        if(whichSensors[index].equals("0")) {
+                            robot.stopFailureAndRepairProcess(directionArray[index]);
+                        }
+                    }
+
+                    // Go to Winning Activity and Set energyConsumed
+                    energyConsumed = initialEnergy - robot.getBatteryLevel();
+
+                    goLosingActivity();
+                }
+
+                // If nothing has trigered runnable to stop
+                if (stopRunnable == false){
+                    // Adjust Energy Level
+                    double energyPercentage =  (robot.getBatteryLevel()/initialEnergy) * 100;
+                    int percent = (int) energyPercentage;
+
+                    progbarEnergyLevel.setProgress(percent);
+                    textEnergyLevel.setText("Energy: " + percent + "%");
+
+
+
+                    curRobotDriver.drive1Step2Exit();
+                    mHandler.postDelayed(this, runnableSpeed);
+
+                }
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -332,7 +444,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         }
 
         // By Default robot is reliable.
-        Robot robot = new ReliableRobot();
+        robot = new ReliableRobot();
         if (robotType == 1) {
             // That means the robot will be unreliable
             robot = new UnreliableRobot();
@@ -381,20 +493,20 @@ public class PlayAnimationActivity extends AppCompatActivity {
             curRobotDriver.setMaze(newMaze);
             curRobotDriver.setRobot(robot);
 
-            if (curRobotDriver != null) {
-                try {
-                    // if wizard returns false then something has failed
-                    if (curRobotDriver.drive2Exit() == false) {
-//                        success = false;
-//                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
-
-                    }
-
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (curRobotDriver != null) {
+//                try {
+//                    // if wizard returns false then something has failed
+//                    if (curRobotDriver.drive2Exit() == false) {
+////                        success = false;
+////                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
+//
+//                    }
+//
+//                }
+//                catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
         // Using Wall Follower Driver
         else if(mazeDriver.equals("WallFollower")) {
@@ -404,21 +516,19 @@ public class PlayAnimationActivity extends AppCompatActivity {
             curRobotDriver.setMaze(newMaze);
             curRobotDriver.setRobot(robot);
 
-//            control.setRobotAndDriver(robot, curRobotDriver);
-
-            if (curRobotDriver != null) {
-                try {
-                    // if wizard returns false then something has failed
-                    if (curRobotDriver.drive2Exit() == false) {
-//                        success = false;
-//                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
-
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (curRobotDriver != null) {
+//                try {
+//                    // if wizard returns false then something has failed
+//                    if (curRobotDriver.drive2Exit() == false) {
+////                        success = false;
+////                        switchFromPlayingToWinning(curRobotDriver.getPathLength());
+//
+//                    }
+//                }
+//                catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
         }
 //        else if(driver == 3) {
@@ -443,17 +553,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
 //            }
 //        }
 
-        // For Loop to Stop the Threads from running.
-        for(int index = 0; index<4; index++) {
-            if(whichSensors[index].equals("0")) {
-                robot.stopFailureAndRepairProcess(directionArray[index]);
-            }
-        }
 
-        // Go to Winning Activity and Set energyConsumed
-        energyConsumed = initialEnergy - robot.getBatteryLevel();
-        goWinningActivity();
-
+        mazeRunnable.run();
 
     }
 
@@ -700,6 +801,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private void goLosingActivity() {
         Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("pathLength", pathLength);
+        intent.putExtra("shortestPath", shortestPath);
         intent.putExtra("energyConsumed", energyConsumed);
         intent.putExtra("losingReason", losingReason);
 
@@ -722,6 +824,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
+
+        // For Loop to Stop the Threads from running.
+        Robot.Direction[] directionArray = {Robot.Direction.FORWARD, Robot.Direction.LEFT, Robot.Direction.RIGHT, Robot.Direction.BACKWARD};
+        for(int index = 0; index<4; index++) {
+            if(whichSensors[index].equals("0")) {
+                robot.stopFailureAndRepairProcess(directionArray[index]);
+            }
+        }
         Intent intent = new Intent(this, StateTitle.class);
         startActivity(intent);
     }
